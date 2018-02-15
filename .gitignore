@@ -1,0 +1,59 @@
+# Ignore bundler config.
+/.bundle
+/log/*
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/log/*.log.*.gz
+/log/*.yml
+/log/development.log
+/tmp
+/tmp/*
+
+# Ignore OSX files
+.DS_Store
+
+# Ignore vagrant config
+/.vagrant
+
+# Ignore swp files
+.*.swp
+.swp
+
+# Ignore database dump
+*.dump
+coverage
+.ruby-gemset
+Procfile.dev
+
+# dot-env
+.env.local
+
+# Ignore erd (gem)
+erd.pdf
+
+# Ignore node dependences
+node_modules
+react_components/dist
+.nvmrc
+/config/initializers/localeapp.rb
+/app/assets/javascripts/v3/*.bundle.js
+
+# Ignore rspec screeshot
+screenshot.png
+screenshot.html
+
+# Ignore rails files
+/public/assets
+
+/spec/support/failures.txt
+
+/.env.test.local
+
+yarn-error.log
+
+/log/development.log
