@@ -8,4 +8,8 @@ describe Video, type: :model do
     it { is_expected.to have_many(:tasks) }
     it { is_expected.to have_many(:attachments) }
   end
+
+  describe '#aasm' do
+
+  end
 end
