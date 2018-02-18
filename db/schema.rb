@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215020553) do
+ActiveRecord::Schema.define(version: 20180217221734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20180215020553) do
     t.index ["organization_id"], name: "index_organizations_users_on_organization_id"
     t.index ["user_id", "organization_id"], name: "index_organizations_users_on_user_id_and_organization_id"
     t.index ["user_id"], name: "index_organizations_users_on_user_id"
+  end
+
+  create_table "state_histories", force: :cascade do |t|
+    t.bigint "video_id"
+    t.string "from_state"
+    t.string "to_state"
+    t.string "current_event"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["video_id"], name: "index_state_histories_on_video_id"
   end
 
   create_table "systems", force: :cascade do |t|
@@ -112,6 +122,7 @@ ActiveRecord::Schema.define(version: 20180215020553) do
   add_foreign_key "comments", "videos"
   add_foreign_key "organizations_users", "organizations"
   add_foreign_key "organizations_users", "users"
+  add_foreign_key "state_histories", "videos"
   add_foreign_key "systems", "organizations"
   add_foreign_key "tasks", "videos"
   add_foreign_key "users", "organizations"
