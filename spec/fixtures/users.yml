@@ -1,0 +1,4 @@
+user_admin:
+  name: 'User Admin'
+  user_role: admin
+  organization: defaul_organization

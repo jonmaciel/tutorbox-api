@@ -2,7 +2,7 @@ class Video < ApplicationRecord
   include AASM
 
   belongs_to :system
-  belongs_to :user
+  belongs_to :created_by, class_name: 'User', foreign_key: :created_by_id
   has_many :comments
   has_many :tasks
   has_many :state_histories
@@ -56,13 +56,14 @@ class Video < ApplicationRecord
       transitions from: [:customer_revision], to: :approved
     end
 
-    def log_status_change
-      # TO DO: verify permission
-      state_histories << StateHistory.new(
-                                        from_state: aasm.aasm.from_state,
-                                        to_state: aasm.aasm.to_state,
-                                        current_event: aasm.aasm.current_event
-                                      )
-    end
+  end
+
+  def log_status_change
+    # TO DO: verify permission
+    state_histories << StateHistory.new(
+                                      from_state: aasm.from_state,
+                                      to_state: aasm.to_state,
+                                      current_event: aasm.current_event
+                                    )
   end
 end

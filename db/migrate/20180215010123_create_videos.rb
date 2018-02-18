@@ -7,7 +7,7 @@ class CreateVideos < ActiveRecord::Migration[5.1]
       t.string :aasm_state
       t.json :labels
       t.belongs_to :system, foreign_key: true
-      t.belongs_to :user, column: :created_by_id, foreign_key: true
+      t.belongs_to :created_by,  foreign_key: { to_table: :users }
 
       t.timestamps
     end

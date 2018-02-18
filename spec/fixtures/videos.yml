@@ -1,0 +1,4 @@
+default_video:
+  title: 'Default Video'
+  system: default_system
+  created_by: user_admin

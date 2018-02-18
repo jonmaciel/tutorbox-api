@@ -20,20 +20,20 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.string "url"
     t.string "source_type"
     t.bigint "source_id"
-    t.bigint "user_id"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_attachments_on_created_by_id"
     t.index ["source_type", "source_id"], name: "index_attachments_on_source_type_and_source_id"
-    t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
     t.bigint "video_id"
-    t.bigint "user_id"
+    t.bigint "author_id"
     t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_comments_on_user_id"
+    t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["video_id"], name: "index_comments_on_video_id"
   end
 
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   end
 
   create_table "systems", force: :cascade do |t|
+    t.string "name"
     t.bigint "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -110,15 +111,15 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.string "aasm_state"
     t.json "labels"
     t.bigint "system_id"
-    t.bigint "user_id"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_videos_on_created_by_id"
     t.index ["system_id"], name: "index_videos_on_system_id"
-    t.index ["user_id"], name: "index_videos_on_user_id"
   end
 
-  add_foreign_key "attachments", "users"
-  add_foreign_key "comments", "users"
+  add_foreign_key "attachments", "users", column: "created_by_id"
+  add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "comments", "videos"
   add_foreign_key "organizations_users", "organizations"
   add_foreign_key "organizations_users", "users"
@@ -128,5 +129,5 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   add_foreign_key "users", "organizations"
   add_foreign_key "users", "user_roles"
   add_foreign_key "videos", "systems"
-  add_foreign_key "videos", "users"
+  add_foreign_key "videos", "users", column: "created_by_id"
 end
