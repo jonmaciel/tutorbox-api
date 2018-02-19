@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   create_table "attachments", force: :cascade do |t|
     t.string "name"
     t.string "url"
-    t.string "source_type"
-    t.bigint "source_id"
-    t.bigint "created_by_id"
+    t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.bigint "created_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_attachments_on_created_by_id"
@@ -28,8 +28,9 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.bigint "video_id"
-    t.bigint "author_id"
+    t.bigint "video_id", null: false
+    t.bigint "author_id", null: false
+    t.string "comment_for"
     t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,7 +39,7 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -63,55 +64,43 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   end
 
   create_table "systems", force: :cascade do |t|
-    t.string "name"
-    t.bigint "organization_id"
+    t.string "name", null: false
+    t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_systems_on_organization_id"
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "name"
-    t.bigint "video_id"
+    t.string "name", null: false
+    t.bigint "video_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["video_id"], name: "index_tasks_on_video_id"
   end
 
-  create_table "user_roles", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
+    t.string "name", null: false
+    t.string "email", null: false
     t.string "password_digest"
-    t.bigint "user_role_id"
-    t.bigint "organization_id"
+    t.integer "user_role", null: false
+    t.json "user_role_params"
+    t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["password_digest"], name: "index_users_on_password_digest"
-    t.index ["user_role_id"], name: "index_users_on_user_role_id"
-  end
-
-  create_table "video_labels", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "videos", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.string "description"
     t.string "url"
     t.string "aasm_state"
     t.json "labels"
-    t.bigint "system_id"
-    t.bigint "created_by_id"
+    t.bigint "system_id", null: false
+    t.bigint "created_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_videos_on_created_by_id"
@@ -127,7 +116,6 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   add_foreign_key "systems", "organizations"
   add_foreign_key "tasks", "videos"
   add_foreign_key "users", "organizations"
-  add_foreign_key "users", "user_roles"
   add_foreign_key "videos", "systems"
   add_foreign_key "videos", "users", column: "created_by_id"
 end

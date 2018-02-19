@@ -1,8 +1,8 @@
 class CreateSystems < ActiveRecord::Migration[5.1]
   def change
     create_table :systems do |t|
-      t.string :name
-      t.belongs_to :organization, foreign_key: true
+      t.string :name, null: false
+      t.belongs_to :organization, foreign_key: true, null: false
 
       t.timestamps
     end

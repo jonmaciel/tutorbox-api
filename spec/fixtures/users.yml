@@ -1,4 +1,5 @@
 user_admin:
   name: 'User Admin'
-  user_role: admin
+  user_role: 'admin'
+  email: 'admin@mail.com'
   organization: defaul_organization
