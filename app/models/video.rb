@@ -8,7 +8,6 @@ class Video < ApplicationRecord
   has_many :state_histories
   has_many :attachments, as: :source, inverse_of: :source
 
-
   aasm do
     state :canceled
     state :draft, initial: true
