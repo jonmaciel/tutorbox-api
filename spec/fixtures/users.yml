@@ -2,19 +2,25 @@ user_admin:
   name: 'User Admin'
   user_role: 'admin'
   email: 'admin@mail.com'
-  organization: defaul_organization
+  organization: default_organization
 
 user_organization_admin:
   name: 'User Organization Admin'
   user_role: 'organization_admin'
   email: 'organization_admin@mail.com'
-  organization: defaul_organization
+  organization: default_organization
 
 user_system_member:
   name: 'User System Member'
   user_role: 'system_member'
   email: 'system_member@mail.com'
-  organization: defaul_organization
+  organization: default_organization
+
+software_house_admin:
+  name: 'Software House Admin'
+  user_role: 'organization_admin'
+  email: 'software_house_admin@mail.com'
+  organization: software_house
 
 software_house_member:
   name: 'Software House Member'

@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_request
-  attr_reader :current_user
+  attr_reader :current_user, :current_policy
+
+  def current_policy
+    @current_policy ||= ::AccessPolicy.new(current_user) if current_user
+  end
 
   private
 
@@ -8,4 +12,5 @@ class ApplicationController < ActionController::API
     @current_user = AuthorizeApiRequest.call(request.headers).result
     render json: { error: 'Not Authorized' }, status: 401 unless @current_user
   end
+
 end
