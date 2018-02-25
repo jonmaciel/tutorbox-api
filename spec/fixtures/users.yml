@@ -3,3 +3,21 @@ user_admin:
   user_role: 'admin'
   email: 'admin@mail.com'
   organization: defaul_organization
+
+user_organization_admin:
+  name: 'User Organization Admin'
+  user_role: 'organization_admin'
+  email: 'organization_admin@mail.com'
+  organization: defaul_organization
+
+user_system_member:
+  name: 'User System Member'
+  user_role: 'system_member'
+  email: 'system_member@mail.com'
+  organization: defaul_organization
+
+software_house_member:
+  name: 'Software House Member'
+  user_role: 'system_member'
+  email: 'software_house@mail.com'
+  organization: software_house

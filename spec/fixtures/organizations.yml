@@ -1,2 +1,5 @@
 default_organization:
   name: 'Default Organization'
+
+software_house:
+  name: 'Software House'

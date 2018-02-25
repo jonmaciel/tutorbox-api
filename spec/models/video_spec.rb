@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Video, type: :model do
-  subject(:video) { videos(:default_video) }
+  subject(:video) { videos(:default_video_1) }
 
   describe 'associations' do
     it { is_expected.to belong_to(:system) }

@@ -5,4 +5,8 @@ class User < ApplicationRecord
   has_secure_password
 
   enum user_role: [:admin, :script_writer, :video_producer, :organization_admin, :system_admin, :system_member]
+
+  def admin?
+    user_role == 'admin'
+  end
 end

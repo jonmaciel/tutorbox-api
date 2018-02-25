@@ -83,8 +83,10 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "password_digest"
+    t.string "cellphone"
+    t.string "facebook_url"
     t.integer "user_role", null: false
-    t.json "user_role_params"
+    t.json "system_role_params"
     t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

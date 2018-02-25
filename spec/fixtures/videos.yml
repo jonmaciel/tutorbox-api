@@ -1,4 +1,19 @@
-default_video:
-  title: 'Default Video'
+default_video_1:
+  title: 'Default Video 1'
   system: default_system
   created_by: user_admin
+
+default_video_2:
+  title: 'Default Video 2'
+  system: default_system
+  created_by: user_admin
+
+simple_video:
+  title: 'Video'
+  system: default_system
+  created_by: user_system_member
+
+software_house_video:
+  title: "Software House's Video"
+  system: default_system
+  created_by: software_house_member
