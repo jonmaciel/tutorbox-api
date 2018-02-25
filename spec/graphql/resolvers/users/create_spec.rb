@@ -3,9 +3,7 @@ require 'rails_helper'
 describe Resolvers::Users::Create do
   let(:current_user) { users(:user_organization_admin) }
   let(:organization) { organizations(:default_organization) }
-
-
-  let(:input) {
+  let(:new_user_attributes) {
     {
       name: 'User teste',
       email: 'usertest@mail.com',
@@ -15,11 +13,19 @@ describe Resolvers::Users::Create do
       organization_id: organization.id
     }
   }
-  subject(:result) { described_class::call(nil, input, { current_user: current_user }) }
+  subject(:result) { described_class::call(nil, { new_user_attributes: new_user_attributes } , current_user: current_user ) }
 
   describe '#call' do
     context 'when the uses has been created' do
-      it { expect(result[:user]).to be_persisted }
+      let(:new_user) { result[:user] }
+
+       it 'shoud create users whit its rigth attributes' do
+        expect(new_user).to be_persisted
+        expect(new_user.name).to eql new_user_attributes[:name]
+        expect(new_user.email).to eql new_user_attributes[:email]
+        expect(new_user.user_role).to eql new_user_attributes[:user_role]
+        expect(new_user.organization_id).to eql new_user_attributes[:organization_id]
+      end
     end
 
     context 'when the uses has not been created' do

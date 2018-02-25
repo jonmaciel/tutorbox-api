@@ -1,29 +1,34 @@
 user_admin:
   name: 'User Admin'
   user_role: 'admin'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'admin@mail.com'
   organization: default_organization
 
 user_organization_admin:
   name: 'User Organization Admin'
   user_role: 'organization_admin'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'organization_admin@mail.com'
   organization: default_organization
 
 user_system_member:
   name: 'User System Member'
   user_role: 'system_member'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'system_member@mail.com'
   organization: default_organization
 
 software_house_admin:
   name: 'Software House Admin'
   user_role: 'organization_admin'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'software_house_admin@mail.com'
   organization: software_house
 
 software_house_member:
   name: 'Software House Member'
   user_role: 'system_member'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'software_house@mail.com'
   organization: software_house

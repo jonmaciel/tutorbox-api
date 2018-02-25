@@ -8,6 +8,13 @@ describe User, type: :model do
     it { is_expected.to have_many(:videos) }
   end
 
+  describe 'basic validations' do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:password_digest) }
+    it { is_expected.to validate_presence_of(:user_role) }
+  end
+
   describe '#public methods' do
     User.user_roles.keys.each do |user_role|
       describe "##{user_role}?" do

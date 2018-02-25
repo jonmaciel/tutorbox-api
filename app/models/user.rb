@@ -6,7 +6,11 @@ class User < ApplicationRecord
 
   enum user_role: [:admin, :script_writer, :video_producer, :organization_admin, :system_admin, :system_member]
 
-  validates :name, :email, :user_role, presence: true
+  validates :name, :email, :user_role, :password_digest,  presence: true
+
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password_confirmation, presence: true, on: :create
+
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 
   delegate :can?, to: :access_policy

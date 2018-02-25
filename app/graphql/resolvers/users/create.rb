@@ -3,14 +3,7 @@ module Resolvers
     module Create
       class << self
         def call(_, input, context)
-          new_user = User.new(
-            name: input[:name],
-            email: input[:email],
-            password: input[:password],
-            password_confirmation: input[:password_confirmation],
-            user_role: input[:user_role],
-            organization_id: input[:organization_id]
-          )
+          new_user = User.new(input[:new_user_attributes].to_h)
 
           raise 'Not authorized' unless context[:current_user].can?(:create, new_user)
 
