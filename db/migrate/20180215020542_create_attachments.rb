@@ -6,6 +6,7 @@ class CreateAttachments < ActiveRecord::Migration[5.1]
       t.belongs_to :source, polymorphic: true, null: false
       t.belongs_to :created_by, foreign_key: { to_table: :users }, null: false
 
+      t.datetime :deleted_at, index: true
       t.timestamps
     end
   end

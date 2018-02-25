@@ -7,8 +7,14 @@ describe UserMutation do
   end
 
   describe UserMutation::Update do
+    it { is_expected.to have_an_input_field(:id).of_type('ID!') }
     it { is_expected.to have_an_input_field(:user_attributes).of_type(!UserInput::Attributes) }
     it { is_expected.to have_a_return_field(:user).returning(Types::UserType) }
+  end
+
+  describe UserMutation::Destroy do
+    it { is_expected.to have_an_input_field(:id).of_type('ID!') }
+    it { is_expected.to have_a_return_field(:success).returning('Boolean') }
   end
 
   describe '#callcheck' do
@@ -53,7 +59,7 @@ describe UserMutation do
       end
     end
 
-    describe '#create' do
+    describe '#update' do
       let(:target_user) { users(:user_system_member) }
       let(:mutation) {
          <<-GRAPHQL
@@ -78,6 +84,30 @@ describe UserMutation do
           it 'calls resolver and return user' do
             expect(Resolvers::Users::Update).to receive(:call).and_call_original
             expect(result['data']['updateUser']['user']).to be_present
+          end
+        end
+      end
+    end
+
+    describe '#destroy' do
+      let(:target_user) { users(:user_system_member) }
+      let(:mutation) {
+         <<-GRAPHQL
+          mutation {
+            destroyUser(
+              input: {
+                id: #{target_user.id},
+              }
+            ) { success }
+          }
+        GRAPHQL
+      }
+
+      describe '#execute' do
+        context 'when the uses has been created' do
+          it 'calls resolver and return user' do
+            expect(Resolvers::Users::Destroy).to receive(:call).and_call_original
+            expect(result['data']['destroyUser']['success']).to be_truthy
           end
         end
       end

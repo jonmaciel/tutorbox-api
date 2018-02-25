@@ -3,6 +3,8 @@ require 'rails_helper'
 describe Video, type: :model do
   subject(:video) { videos(:default_video_1) }
 
+  it { is_expected.to act_as_paranoid }
+
   describe 'associations' do
     it { is_expected.to belong_to(:system) }
     it { is_expected.to belong_to(:created_by) }

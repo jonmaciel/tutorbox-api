@@ -21,9 +21,11 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.string "source_type", null: false
     t.bigint "source_id", null: false
     t.bigint "created_by_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_attachments_on_created_by_id"
+    t.index ["deleted_at"], name: "index_attachments_on_deleted_at"
     t.index ["source_type", "source_id"], name: "index_attachments_on_source_type_and_source_id"
   end
 
@@ -32,16 +34,20 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.bigint "author_id", null: false
     t.string "comment_for"
     t.string "body"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["deleted_at"], name: "index_comments_on_deleted_at"
     t.index ["video_id"], name: "index_comments_on_video_id"
   end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
   end
 
   create_table "organizations_users", id: false, force: :cascade do |t|
@@ -66,30 +72,36 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   create_table "systems", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "organization_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_systems_on_deleted_at"
     t.index ["organization_id"], name: "index_systems_on_organization_id"
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "video_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_tasks_on_deleted_at"
     t.index ["video_id"], name: "index_tasks_on_video_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
-    t.string "password_digest"
+    t.string "password_digest", null: false
+    t.integer "user_role", null: false
     t.string "cellphone"
     t.string "facebook_url"
-    t.integer "user_role", null: false
     t.json "system_role_params"
     t.bigint "organization_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email"
     t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["password_digest"], name: "index_users_on_password_digest"
@@ -103,9 +115,11 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.json "labels"
     t.bigint "system_id", null: false
     t.bigint "created_by_id", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_videos_on_created_by_id"
+    t.index ["deleted_at"], name: "index_videos_on_deleted_at"
     t.index ["system_id"], name: "index_videos_on_system_id"
   end
 

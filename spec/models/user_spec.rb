@@ -3,6 +3,8 @@ require 'rails_helper'
 describe User, type: :model do
   let(:user) { users(:user_admin) }
 
+  it { is_expected.to act_as_paranoid }
+
   describe 'associations' do
     it { is_expected.to belong_to(:organization) }
     it { is_expected.to have_many(:videos) }

@@ -11,6 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
 
       t.belongs_to :organization, foreign_key: true, null: false
 
+      t.datetime :deleted_at, index: true
       t.timestamps
     end
 
