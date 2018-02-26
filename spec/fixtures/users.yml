@@ -12,6 +12,13 @@ user_organization_admin:
   email: 'organization_admin@mail.com'
   organization: default_organization
 
+user_system_admin:
+  name: 'User System admin'
+  user_role: 'system_admin'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
+  email: 'system_admin@mail.com'
+  organization: default_organization
+
 user_system_member:
   name: 'User System Member'
   user_role: 'system_member'

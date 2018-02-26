@@ -5,6 +5,8 @@ class AccessPolicy
     role :admin, user_role: 'admin' do
       can :manage, User
       can :manage, Video
+      can :manage, Organization
+      can :read_collection, Organization
       can :cancel_state, Video
     end
 
@@ -18,15 +20,26 @@ class AccessPolicy
       can :manage, User do |target_user, current_user|
         target_user.organization == current_user.organization
       end
+
+      can :manage, Organization do |target_organization, current_user|
+        target_organization.id == current_user.organization_id
+      end
     end
 
-    # role :system_admin, { user_role: :system_admin } do
-    # end
+    role :system_admin, user_role: 'system_admin' do
+       can :read, Organization do |target_organization, current_user|
+        target_organization.id == current_user.organization_id
+      end
+    end
 
     role :system_member, user_role: 'system_member' do
       can :create, Video
       can [:update, :destroy], Video do |target_video, current_user|
         target_video.created_by == current_user
+      end
+
+      can :read, Organization do |target_organization, current_user|
+        target_organization.id == current_user.organization_id
       end
     end
   end
