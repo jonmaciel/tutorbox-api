@@ -16,13 +16,33 @@ class User < ApplicationRecord
 
   delegate :can?, to: :access_policy
 
+  before_validation :create_random_password, on: :create, if: :end_user?
+  before_validation :send_welcome_email, on: :create
+
+  END_USER = ['organization_admin', 'system_admin', 'system_member']
+
   User.user_roles.keys.each do |role|
     define_method("#{role}?") do
       user_role == role
     end
   end
 
+  def end_user?
+    user_role.in?(END_USER)
+  end
+
   def access_policy
     @access_policy ||= AccessPolicy.new(self)
+  end
+
+  def create_random_password
+    self.password = self.password_confirmation = SecureRandom.hex(8) if password.blank?
+    true
+  end
+
+  private
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver
   end
 end
