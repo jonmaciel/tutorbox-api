@@ -1,18 +1,19 @@
 require 'rails_helper'
 
-describe UserMutation do
-  describe UserMutation::Create do
-    it { is_expected.to have_an_input_field(:newUserAttributes).of_type(!UserInput::Attributes) }
-    it { is_expected.to have_a_return_field(:user).returning(Types::UserType) }
+describe OrganizationMutation do
+  describe OrganizationMutation::Create do
+    it { is_expected.to have_an_input_field(:newOrganizationAttributes).of_type(!OrganizationInput::Attributes) }
+    it { is_expected.to have_an_input_field(:userAdminAttributes).of_type(UserInput::Attributes) }
+    it { is_expected.to have_a_return_field(:organization).returning(Types::OrganizationType) }
   end
 
-  describe UserMutation::Update do
+  describe OrganizationMutation::Update do
     it { is_expected.to have_an_input_field(:id).of_type('ID!') }
-    it { is_expected.to have_an_input_field(:userAttributes).of_type(!UserInput::Attributes) }
-    it { is_expected.to have_a_return_field(:user).returning(Types::UserType) }
+    it { is_expected.to have_an_input_field(:organizationAttributes).of_type(!OrganizationInput::Attributes) }
+    it { is_expected.to have_a_return_field(:organization).returning(Types::OrganizationType) }
   end
 
-  describe UserMutation::Destroy do
+  describe OrganizationMutation::Destroy do
     it { is_expected.to have_an_input_field(:id).of_type('ID!') }
     it { is_expected.to have_a_return_field(:success).returning('Boolean') }
   end

@@ -13,7 +13,7 @@ describe Resolvers::Users::Create do
       organization_id: organization.id
     }
   }
-  subject(:result) { described_class::call(nil, { new_user_attributes: new_user_attributes } , current_user: current_user ) }
+  subject(:result) { described_class::call(nil, { newUserAttributes: new_user_attributes } , current_user: current_user ) }
 
   describe '#call' do
     context 'when the uses has been created' do

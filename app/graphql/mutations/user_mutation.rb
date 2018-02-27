@@ -3,7 +3,7 @@ module UserMutation
     name 'CreateUser'
     description 'Creates a User'
 
-    input_field :new_user_attributes, !UserInput::Attributes, 'User Attributes'
+    input_field :newUserAttributes, !UserInput::Attributes, 'User Attributes'
     return_field :user, Types::UserType, 'Returns information about the new user'
 
     resolve Resolvers::Users::Create
@@ -15,7 +15,7 @@ module UserMutation
     description 'Updates a User'
 
     input_field :id, !types.ID, 'The user ID'
-    input_field :user_attributes, !UserInput::Attributes, 'User Attributes'
+    input_field :userAttributes, !UserInput::Attributes, 'User Attributes'
 
     return_field :user, Types::UserType, 'Returns information about the user updated'
 

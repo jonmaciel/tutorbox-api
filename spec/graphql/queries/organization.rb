@@ -13,10 +13,10 @@ RSpec.describe 'organization' do
   end
 
   let(:result) {
-      TutorboxApiSchema.execute(
-        query,
-        context: { current_user: current_user }
-      )
+    TutorboxApiSchema.execute(
+      query,
+      context: { current_user: current_user }
+    )
   }
 
   describe '#callcheck' do

@@ -5,7 +5,7 @@ module Resolvers
         def call(_, input, context)
           user_to_update = User.find(input[:id])
 
-          input[:user_attributes].to_h.each do |attribute, value|
+          input[:userAttributes].to_h.each do |attribute, value|
             user_to_update.send("#{attribute}=", value)
           end
 

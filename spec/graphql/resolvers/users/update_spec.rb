@@ -16,7 +16,7 @@ describe Resolvers::Users::Update do
     }
   }
   subject(:result) do
-    described_class::call(nil, { id: user_id, user_attributes: user_attributes }, { current_user: current_user })
+    described_class::call(nil, { id: user_id, userAttributes: user_attributes }, { current_user: current_user })
   end
   let(:updated_user) { result[:user] }
 
