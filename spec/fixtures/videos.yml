@@ -6,7 +6,7 @@ default_video_1:
 default_video_2:
   title: 'Default Video 2'
   system: default_system
-  created_by: user_admin
+  created_by: user_organization_admin
 
 simple_video:
   title: 'Video'
@@ -15,5 +15,5 @@ simple_video:
 
 software_house_video:
   title: "Software House's Video"
-  system: default_system
+  system: softwarehouse_system
   created_by: software_house_member

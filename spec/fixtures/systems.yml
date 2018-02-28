@@ -1,3 +1,7 @@
 default_system:
   name: 'Default System'
   organization: default_organization
+
+softwarehouse_system:
+  name: 'softwarehouse System'
+  organization: software_house

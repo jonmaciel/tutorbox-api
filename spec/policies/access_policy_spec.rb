@@ -55,6 +55,16 @@ describe AccessPolicy do
       end
     end
 
+    describe '#video' do
+      context 'when the target video is from same org' do
+        let(:created_video) { videos(:default_video_1) }
+
+        it { expect(ability.can?(:create, created_video)).to be_truthy }
+        it { expect(ability.can?(:update, created_video)).to be_truthy }
+        it { expect(ability.can?(:destroy, created_video)).to be_truthy }
+      end
+    end
+
     describe '#organization' do
       it { expect(ability.can?(:read_collection, Organization)).to be_falsey }
       it { expect(ability.can?(:read, allowed_organization)).to be_truthy }
@@ -66,6 +76,16 @@ describe AccessPolicy do
     let(:current_user) { users(:user_system_admin) }
     let(:allowed_organization) { organizations(:default_organization) }
     let(:not_allowed_organization) { organizations(:software_house) }
+
+    describe '#video' do
+      context 'when the target video is from same org' do
+        let(:created_video) { videos(:default_video_1) }
+
+        it { expect(ability.can?(:create, created_video)).to be_truthy }
+        it { expect(ability.can?(:update, created_video)).to be_truthy }
+        it { expect(ability.can?(:destroy, created_video)).to be_truthy }
+      end
+    end
 
     describe '#organization' do
       it { expect(ability.can?(:read_collection, Organization)).to be_falsey }
@@ -83,7 +103,7 @@ describe AccessPolicy do
       it { expect(ability.can?(:create, Video)).to be_truthy }
     end
 
-    context 'when the target user is from same org' do
+    context 'when the target video is from same org' do
       let(:created_video) { videos(:software_house_video) }
 
       it { expect(ability.can?(:update, created_video)).to be_truthy }
