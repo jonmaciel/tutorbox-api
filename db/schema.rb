@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   create_table "comments", force: :cascade do |t|
     t.bigint "video_id", null: false
     t.bigint "author_id", null: false
-    t.string "comment_for"
+    t.integer "comment_destination", null: false
     t.string "body"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
@@ -48,15 +48,6 @@ ActiveRecord::Schema.define(version: 20180303032443) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_organizations_on_deleted_at"
-  end
-
-  create_table "organizations_users", id: false, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "organization_id"
-    t.index ["organization_id", "user_id"], name: "index_organizations_users_on_organization_id_and_user_id"
-    t.index ["organization_id"], name: "index_organizations_users_on_organization_id"
-    t.index ["user_id", "organization_id"], name: "index_organizations_users_on_user_id_and_organization_id"
-    t.index ["user_id"], name: "index_organizations_users_on_user_id"
   end
 
   create_table "state_histories", force: :cascade do |t|
@@ -90,6 +81,8 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "system_id"
     t.string "name", null: false
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -97,7 +90,6 @@ ActiveRecord::Schema.define(version: 20180303032443) do
     t.string "cellphone"
     t.string "facebook_url"
     t.json "system_role_params"
-    t.bigint "organization_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -105,6 +97,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
     t.index ["email"], name: "index_users_on_email"
     t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["password_digest"], name: "index_users_on_password_digest"
+    t.index ["system_id"], name: "index_users_on_system_id"
   end
 
   create_table "users_videos", id: false, force: :cascade do |t|
@@ -135,12 +128,11 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   add_foreign_key "attachments", "users", column: "created_by_id"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "comments", "videos"
-  add_foreign_key "organizations_users", "organizations"
-  add_foreign_key "organizations_users", "users"
   add_foreign_key "state_histories", "videos"
   add_foreign_key "systems", "organizations"
   add_foreign_key "tasks", "videos"
   add_foreign_key "users", "organizations"
+  add_foreign_key "users", "systems"
   add_foreign_key "users_videos", "users"
   add_foreign_key "users_videos", "videos"
   add_foreign_key "videos", "systems"

@@ -8,13 +8,30 @@ class AccessPolicy
       can :assign, Video
       can :manage, Organization
       can :read_collection, Organization
-      can :cancel_video, Video
+      can [:cancel_video, :read_comments], Video
+      can [:post, :destroy], Comment
     end
 
     role :script_writer, user_role: 'script_writer' do
+      can [:post, :destroy], Comment do |target_comment, current_user|
+        current_user.video_ids.include?(target_comment.video_id) &&
+        target_comment.id == current_user.organization_id
+      end
+
+      can [:read_comments], Video do |target_video, current_user|
+        current_user.video_ids.include?(target_video.id)
+      end
     end
 
     role :video_producer, user_role: 'video_producer' do
+      can [:post, :destroy], Comment do |target_comment, current_user|
+        current_user.video_ids.include?(target_comment.video_id) &&
+        target_comment.id == current_user.organization_id
+      end
+
+      can [:read_comments], Video do |target_video, current_user|
+        current_user.video_ids.include?(target_video.id)
+      end
     end
 
     role :organization_admin, user_role: 'organization_admin' do
@@ -29,14 +46,31 @@ class AccessPolicy
       can :manage, Organization do |target_organization, current_user|
         target_organization.id == current_user.organization_id
       end
+
+      can [:post, :destroy], Comment do |target_comment, current_user|
+        target_comment.video.system.organization_id == current_user.organization_id
+      end
+
+      can [:read_comments], Video do |target_video, current_user|
+        target_video.system.organization_id == current_user.organization_id
+      end
     end
 
     role :system_admin, user_role: 'system_admin' do
       can [:create, :update, :destroy, :read, :cancel_video], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
+
       can :read, Organization do |target_organization, current_user|
         target_organization.id == current_user.organization_id
+      end
+
+      can [:post, :destroy], Comment do |target_comment, current_user|
+        target_comment.video.system_id == current_user.system_id
+      end
+
+      can [:read_comments], Video do |target_video, current_user|
+        target_video.system_id == current_user.system_id
       end
     end
 
@@ -48,6 +82,16 @@ class AccessPolicy
 
       can :read, Organization do |target_organization, current_user|
         target_organization.id == current_user.organization_id
+      end
+
+      can [:post, :destroy], Comment do |target_comment, current_user|
+        target_comment.video.system_id == current_user.system_id &&
+        target_comment.author_id == current_user.id
+      end
+
+      can [:read_comments], Video do |target_video, current_user|
+        current_user.video_ids.include?(target_video.id) &&
+        target_video.system_id == current_user.system_id
       end
     end
   end

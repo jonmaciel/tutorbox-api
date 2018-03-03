@@ -20,13 +20,7 @@ class User < ApplicationRecord
   before_validation :create_random_password, on: :create, if: :end_user?
   before_validation :send_welcome_email, on: :create
 
-  END_USER = ['organization_admin', 'system_admin', 'system_member']
-
-  User.user_roles.keys.each do |role|
-    define_method("#{role}?") do
-      user_role == role
-    end
-  end
+  END_USER = ['organization_admin', 'system_admin', 'system_member'].freeze
 
   def end_user?
     user_role.in?(END_USER)

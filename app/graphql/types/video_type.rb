@@ -8,7 +8,14 @@ Types::VideoType = GraphQL::ObjectType.define do
   field :labels, types[types.String]
   field :created_by, Types::UserType
   field :permited_events, types[types.String]
-
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
+
+  field :comments, types[Types::CommentType] do
+    resolve ->(video, _input, context) do
+      comments = video.comments
+      comments.where(comment_destination: :customer) if context[:current_user].end_user?
+      comments
+    end
+  end
 end

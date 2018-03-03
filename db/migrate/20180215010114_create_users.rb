@@ -1,6 +1,9 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
   def change
     create_table :users do |t|
+      t.belongs_to :organization, foreign_key: true, null: false
+      t.belongs_to :system, foreign_key: true
+
       t.string :name, null: false
       t.string :email, null: false
       t.string :password_digest, null: false
@@ -9,7 +12,6 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :facebook_url
       t.json :system_role_params
 
-      t.belongs_to :organization, foreign_key: true, null: false
 
       t.datetime :deleted_at, index: true
       t.timestamps

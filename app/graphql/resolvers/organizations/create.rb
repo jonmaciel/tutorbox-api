@@ -3,8 +3,9 @@ module Resolvers
     module Create
       class << self
         def call(_, input, context)
-          new_organization = Organization.new(input[:newOrganizationAttributes].to_h)
+          input[:userAdminAttributes].try(:delete, :organization_id) if input[:newOrganizationAttributes].present?
 
+          new_organization = Organization.new(input[:newOrganizationAttributes].to_h)
           raise 'Not authorized' unless context[:current_user].can?(:create, new_organization)
 
           new_organization.users << User.new(input[:userAdminAttributes].to_h) if input[:userAdminAttributes].present?

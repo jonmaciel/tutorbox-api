@@ -3,4 +3,6 @@ class Comment < ApplicationRecord
   belongs_to :video
 
   acts_as_paranoid
+
+  enum comment_destination: [:administrative, :customer]
 end

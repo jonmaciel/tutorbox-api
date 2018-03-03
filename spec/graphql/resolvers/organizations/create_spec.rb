@@ -45,11 +45,11 @@ describe Resolvers::Organizations::Create do
         expect(new_admin_user.name).to eql user_admin_attributes[:name]
         expect(new_admin_user.email).to eql user_admin_attributes[:email]
         expect(new_admin_user.user_role).to eql user_admin_attributes[:user_role]
-        expect(new_admin_user.organization_id).to eql user_admin_attributes[:organization_id]
+        expect(new_admin_user.organization_id).to eql new_organization.id
       end
     end
 
-    context 'when the uses has been created without admin' do
+    context 'when the user has been created without admin' do
       let(:new_organization) { result[:organization] }
       let(:user_admin_attributes) { nil }
       let(:new_admin_user) { new_organization.users.first }

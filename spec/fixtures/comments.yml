@@ -1,0 +1,11 @@
+comment_default_video_1:
+  video: default_video_1
+  author: user_admin
+  comment_destination: 'administrative'
+  body: 'testing this'
+
+comment_default_video_2:
+  video: default_video_2
+  author: user_admin
+  comment_destination: 'customer'
+  body: 'testing this'
