@@ -8,7 +8,7 @@ describe AccessPolicy do
     let(:current_user) { users(:user_admin) }
 
     describe '#video' do
-      it { expect(ability.can?(:cancel_state, Video)).to be_truthy }
+      it { expect(ability.can?(:cancel_video, Video)).to be_truthy }
       it ':manage' do
         fullrole.each do |role|
           expect(ability.can?(role, Video)).to be_truthy
@@ -62,6 +62,7 @@ describe AccessPolicy do
         it { expect(ability.can?(:create, created_video)).to be_truthy }
         it { expect(ability.can?(:update, created_video)).to be_truthy }
         it { expect(ability.can?(:destroy, created_video)).to be_truthy }
+        it { expect(ability.can?(:cancel_video, created_video)).to be_truthy }
       end
     end
 
@@ -84,6 +85,7 @@ describe AccessPolicy do
         it { expect(ability.can?(:create, created_video)).to be_truthy }
         it { expect(ability.can?(:update, created_video)).to be_truthy }
         it { expect(ability.can?(:destroy, created_video)).to be_truthy }
+        it { expect(ability.can?(:cancel_video, created_video)).to be_truthy }
       end
     end
 
@@ -116,6 +118,7 @@ describe AccessPolicy do
       it 'cannot manage' do
         expect(ability.can?(:update, radom_video)).to be_falsey
         expect(ability.can?(:destroy, radom_video)).to be_falsey
+        expect(ability.can?(:cancel_video, radom_video)).to be_falsey
       end
     end
 

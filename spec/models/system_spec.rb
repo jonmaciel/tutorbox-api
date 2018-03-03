@@ -6,5 +6,6 @@ RSpec.describe System, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:organization) }
     it { is_expected.to have_many(:attachments) }
+    it { is_expected.to have_many(:videos) }
   end
 end

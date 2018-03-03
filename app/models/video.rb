@@ -56,15 +56,17 @@ class Video < ApplicationRecord
     event :approved_by_customer do
       transitions from: [:customer_revision], to: :approved
     end
-
   end
 
   def log_status_change
-    # TO DO: verify permission
     state_histories << StateHistory.new(
                                       from_state: aasm.from_state,
                                       to_state: aasm.to_state,
                                       current_event: aasm.current_event
                                     )
+  end
+
+  def permited_events
+    aasm.events(permitted: true).map(&:name)
   end
 end

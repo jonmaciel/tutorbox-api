@@ -26,6 +26,13 @@ describe Video, type: :model do
       it { is_expected.to transition_from(:customer_revision).to(:approved).on_event(:approved_by_customer) }
     end
 
+    describe 'permited_events' do
+      it do
+        expect_any_instance_of(AASM::InstanceBase).to receive(:events).with(permitted: true).and_call_original
+        video.permited_events
+      end
+    end
+
     context 'historing the transitions' do
       it { expect { video.cancel_video! }.to change{ StateHistory.count }.by(1) }
 
