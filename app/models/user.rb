@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   belongs_to :organization, inverse_of: :users
-  has_many :videos, foreign_key: :created_by_id
+  has_many :created_videos, foreign_key: :created_by_id, class_name: 'Video'
+  has_and_belongs_to_many :videos, inverse_of: :users
 
   acts_as_paranoid
   has_secure_password

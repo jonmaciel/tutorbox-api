@@ -26,6 +26,7 @@ describe VideoMutation do
   describe '#callcheck' do
     let(:current_user) { users(:user_organization_admin) }
     let(:target_video) { videos(:default_video_2) }
+    let(:target_user) { users(:user_video_producer) }
     let(:system) { systems(:default_system) }
     let(:organization) { organizations(:default_organization) }
 
@@ -137,6 +138,56 @@ describe VideoMutation do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::ChangeState).to receive(:call).and_call_original
             expect(result['data']['changeVideoState']['success']).to be_truthy
+          end
+        end
+      end
+    end
+
+    describe '#Assign' do
+      let(:current_user) { users(:user_admin) }
+      let(:mutation) {
+         <<-GRAPHQL
+          mutation {
+            assignVideo(
+              input: {
+                userId: #{target_user.id},
+                videoId: #{target_video.id}
+              }
+            ) { success }
+          }
+        GRAPHQL
+      }
+
+      describe '#execute' do
+        context 'when the uses has been created' do
+          it 'calls resolver and return video' do
+            expect(Resolvers::Videos::Assign).to receive(:call).and_call_original
+            expect(result['data']['assignVideo']['success']).to be_truthy
+          end
+        end
+      end
+    end
+
+    describe '#Unassign' do
+      let(:current_user) { users(:user_admin) }
+      let(:mutation) {
+         <<-GRAPHQL
+          mutation {
+            unassignVideo(
+              input: {
+                userId: #{target_user.id},
+                videoId: #{target_video.id}
+              }
+            ) { success }
+          }
+        GRAPHQL
+      }
+
+      describe '#execute' do
+        context 'when the uses has been created' do
+          it 'calls resolver and return video' do
+            expect(Resolvers::Videos::Unassign).to receive(:call).and_call_original
+            expect(result['data']['unassignVideo']['success']).to be_truthy
           end
         end
       end

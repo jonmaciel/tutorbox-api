@@ -5,6 +5,7 @@ class AccessPolicy
     role :admin, user_role: 'admin' do
       can :manage, User
       can :manage, Video
+      can :assign, Video
       can :manage, Organization
       can :read_collection, Organization
       can :cancel_video, Video

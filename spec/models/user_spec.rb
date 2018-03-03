@@ -7,7 +7,7 @@ describe User, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:organization) }
-    it { is_expected.to have_many(:videos) }
+    it { is_expected.to have_many(:created_videos) }
   end
 
   describe 'basic validations' do

@@ -43,4 +43,28 @@ module VideoMutation
 
     resolve Resolvers::Videos::ChangeState
   end
+
+  Assign = GraphQL::Relay::Mutation.define do
+    name 'assignVideo'
+    description 'Change State a Video'
+
+    input_field :videoId, !types.ID, 'The video ID'
+    input_field :userId, !types.ID, 'The user ID'
+
+    return_field :success, types.Boolean, 'Returns operation status'
+
+    resolve Resolvers::Videos::Assign
+  end
+
+  Unassign = GraphQL::Relay::Mutation.define do
+    name 'unassignVideo'
+    description 'Change State a Video'
+
+    input_field :videoId, !types.ID, 'The video ID'
+    input_field :userId, !types.ID, 'The user ID'
+
+    return_field :success, types.Boolean, 'Returns operation status'
+
+    resolve Resolvers::Videos::Unassign
+  end
 end

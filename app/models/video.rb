@@ -7,6 +7,7 @@ class Video < ApplicationRecord
   has_many :tasks
   has_many :state_histories
   has_many :attachments, as: :source, inverse_of: :source
+  has_and_belongs_to_many :users, inverse_of: :videos
 
   acts_as_paranoid
 

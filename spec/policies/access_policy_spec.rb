@@ -9,6 +9,7 @@ describe AccessPolicy do
 
     describe '#video' do
       it { expect(ability.can?(:cancel_video, Video)).to be_truthy }
+      it { expect(ability.can?(:assign, Video)).to be_truthy }
       it ':manage' do
         fullrole.each do |role|
           expect(ability.can?(role, Video)).to be_truthy

@@ -8,7 +8,7 @@ describe Resolvers::Videos::Destroy do
   describe '#call' do
     context 'when the uses has been created' do
 
-       it 'shoud create users whit its rigth attributes' do
+      it 'shoud create users whit its rigth attributes' do
         expect { result }.to change { Video.count }.by(-1)
       end
     end

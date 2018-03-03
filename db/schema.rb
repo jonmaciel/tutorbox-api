@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180217221734) do
+ActiveRecord::Schema.define(version: 20180303032443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,15 @@ ActiveRecord::Schema.define(version: 20180217221734) do
     t.index ["password_digest"], name: "index_users_on_password_digest"
   end
 
+  create_table "users_videos", id: false, force: :cascade do |t|
+    t.bigint "video_id"
+    t.bigint "user_id"
+    t.index ["user_id", "video_id"], name: "index_users_videos_on_user_id_and_video_id"
+    t.index ["user_id"], name: "index_users_videos_on_user_id"
+    t.index ["video_id", "user_id"], name: "index_users_videos_on_video_id_and_user_id"
+    t.index ["video_id"], name: "index_users_videos_on_video_id"
+  end
+
   create_table "videos", force: :cascade do |t|
     t.string "title", null: false
     t.string "description"
@@ -132,6 +141,8 @@ ActiveRecord::Schema.define(version: 20180217221734) do
   add_foreign_key "systems", "organizations"
   add_foreign_key "tasks", "videos"
   add_foreign_key "users", "organizations"
+  add_foreign_key "users_videos", "users"
+  add_foreign_key "users_videos", "videos"
   add_foreign_key "videos", "systems"
   add_foreign_key "videos", "users", column: "created_by_id"
 end
