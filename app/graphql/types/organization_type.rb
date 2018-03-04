@@ -1,5 +1,5 @@
 Types::OrganizationType = GraphQL::ObjectType.define do
-  name "Organization"
+  name 'Organization'
 
   field :id, types.ID
   field :name, types.String

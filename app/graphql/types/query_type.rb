@@ -1,5 +1,5 @@
 Types::QueryType = GraphQL::ObjectType.define do
-  name "Query"
+  name 'Query'
 
   field :organization, Types::OrganizationType do
     description 'Get single organization'

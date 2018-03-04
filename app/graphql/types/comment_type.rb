@@ -1,5 +1,5 @@
 Types::CommentType = GraphQL::ObjectType.define do
-  name "Comment"
+  name 'Comment'
 
   field :id, types.ID
   field :author, Types::UserType

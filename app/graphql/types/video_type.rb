@@ -1,5 +1,5 @@
 Types::VideoType = GraphQL::ObjectType.define do
-  name "Video"
+  name 'Video'
 
   field :id, types.ID
   field :title, types.String
@@ -10,6 +10,7 @@ Types::VideoType = GraphQL::ObjectType.define do
   field :permited_events, types[types.String]
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
+  field :tasks, types[Types::TaskType]
 
   field :comments, types[Types::CommentType] do
     resolve ->(video, _input, context) do
