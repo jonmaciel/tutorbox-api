@@ -9,11 +9,11 @@ class AccessPolicy
       can :manage, Organization
       can :read_collection, Organization
       can [:cancel_video, :read_comments], Video
-      can [:post, :destroy], Comment
+      can [:post, :edit, :destroy], Comment
     end
 
     role :script_writer, user_role: 'script_writer' do
-      can [:post, :destroy], Comment do |target_comment, current_user|
+      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
         target_comment.id == current_user.organization_id
       end
@@ -24,7 +24,7 @@ class AccessPolicy
     end
 
     role :video_producer, user_role: 'video_producer' do
-      can [:post, :destroy], Comment do |target_comment, current_user|
+      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
         target_comment.id == current_user.organization_id
       end
@@ -47,7 +47,7 @@ class AccessPolicy
         target_organization.id == current_user.organization_id
       end
 
-      can [:post, :destroy], Comment do |target_comment, current_user|
+      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         target_comment.video.system.organization_id == current_user.organization_id
       end
 
@@ -65,7 +65,7 @@ class AccessPolicy
         target_organization.id == current_user.organization_id
       end
 
-      can [:post, :destroy], Comment do |target_comment, current_user|
+      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         target_comment.video.system_id == current_user.system_id
       end
 
@@ -84,7 +84,7 @@ class AccessPolicy
         target_organization.id == current_user.organization_id
       end
 
-      can [:post, :destroy], Comment do |target_comment, current_user|
+      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         target_comment.video.system_id == current_user.system_id &&
         target_comment.author_id == current_user.id
       end

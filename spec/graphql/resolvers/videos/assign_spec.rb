@@ -9,18 +9,17 @@ describe Resolvers::Videos::Assign do
   }
 
   describe '#call' do
-    context 'when the uses has been assigned' do
-
-      it 'assigns users' do
+    context 'when the video has been assigned' do
+      it 'assigns video' do
         expect(result).to be_truthy
         expect(target_video.reload.users).to match_array [target_user]
       end
     end
 
-    context 'when the uses has not been assigned' do
+    context 'when the video has not been assigned' do
       let(:current_user) { users(:software_house_admin) }
 
-      it 'does not create a user and returns error' do
+      it 'does not assign a video and returns error' do
         expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
       end
     end

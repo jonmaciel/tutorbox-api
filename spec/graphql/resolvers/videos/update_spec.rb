@@ -21,9 +21,9 @@ describe Resolvers::Videos::Update do
   let(:updated_video) { result[:video] }
 
   describe '#call' do
-    context 'when the uses has been created' do
+    context 'when the video has been updated' do
 
-      it 'shoud update user whit input attributes' do
+      it 'updates video with input attributes' do
         expect(updated_video).to be_persisted
         expect(updated_video.id).to eql video_id
         expect(updated_video.title).to eql video_attributes[:title]
@@ -42,7 +42,7 @@ describe Resolvers::Videos::Update do
         }
       }
 
-    it 'shoud update user whit input attributes' do
+    it 'updates video with input attributes' do
         expect(updated_video).to be_persisted
         expect(updated_video.title).to eql video_attributes[:title]
         expect(updated_video.description).to eql video_attributes[:description]
@@ -52,10 +52,10 @@ describe Resolvers::Videos::Update do
       end
     end
 
-    context 'when the uses has not been updated' do
+    context 'when the video has not been updated' do
       let(:current_user) { users(:software_house_admin) }
 
-      it 'does not create a user and returns error' do
+      it 'does not update the video and returns error' do
         expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
       end
     end

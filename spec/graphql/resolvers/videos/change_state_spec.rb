@@ -7,26 +7,26 @@ describe Resolvers::Videos::ChangeState do
   subject(:result) { described_class::call(nil, { id: target_video.id, event: event } , current_user: current_user ) }
 
   describe '#call' do
-    context 'when the uses has been created' do
-       it 'shoud create users whit its rigth attributes' do
+    context 'when the video state has been changed' do
+       it 'changes video state' do
         expect_any_instance_of(Video).to receive(:permited_events).and_call_original
         expect_any_instance_of(User).to receive(:can?).with(event.to_sym, any_args).and_call_original
         expect(result).to be_truthy
       end
     end
 
-    context 'when the uses has not been created' do
+    context 'when the video state has not been changed' do
       let(:current_user) { users(:software_house_admin) }
 
-      it 'does not create a user and returns error' do
+      it 'does not assing video and returns error' do
         expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
       end
     end
 
-    context 'when the uses has not been created' do
+    context 'when the video state is invalid' do
       let(:event) { 'fake_event' }
 
-      it 'does not create a user and returns error' do
+      it 'does not assing video and returns error' do
         expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
       end
     end

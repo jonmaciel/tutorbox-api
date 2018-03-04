@@ -87,7 +87,7 @@ describe VideoMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the video has been updated' do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::Update).to receive(:call).and_call_original
             expect(result['data']['updateVideo']['video']).to be_present
@@ -110,7 +110,7 @@ describe VideoMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the video has been destroyed' do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::Destroy).to receive(:call).and_call_original
             expect(result['data']['destroyVideo']['success']).to be_truthy
@@ -134,7 +134,7 @@ describe VideoMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the video state has been changed' do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::ChangeState).to receive(:call).and_call_original
             expect(result['data']['changeVideoState']['success']).to be_truthy
@@ -159,7 +159,7 @@ describe VideoMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the video has been assigned' do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::Assign).to receive(:call).and_call_original
             expect(result['data']['assignVideo']['success']).to be_truthy
@@ -184,7 +184,7 @@ describe VideoMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the video has been unassigned' do
           it 'calls resolver and return video' do
             expect(Resolvers::Videos::Unassign).to receive(:call).and_call_original
             expect(result['data']['unassignVideo']['success']).to be_truthy

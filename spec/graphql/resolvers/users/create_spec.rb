@@ -16,10 +16,10 @@ describe Resolvers::Users::Create do
   subject(:result) { described_class::call(nil, { newUserAttributes: new_user_attributes } , current_user: current_user ) }
 
   describe '#call' do
-    context 'when the uses has been created' do
+    context 'when the user has been created' do
       let(:new_user) { result[:user] }
 
-       it 'shoud create users whit its rigth attributes' do
+       it 'creates user with its rigth attributes' do
         expect(new_user).to be_persisted
         expect(new_user.name).to eql new_user_attributes[:name]
         expect(new_user.email).to eql new_user_attributes[:email]
@@ -28,7 +28,7 @@ describe Resolvers::Users::Create do
       end
     end
 
-    context 'when the uses has not been created' do
+    context 'when the user has not been created' do
       let(:current_user) { users(:software_house_admin) }
 
       it 'does not create a user and returns error' do

@@ -13,5 +13,6 @@ Types::MutationType = GraphQL::ObjectType.define do
   field :unassignVideo, field: VideoMutation::Unassign.field
 
   field :postComment, field: CommentMutation::Post.field
+  field :editComment, field: CommentMutation::Edit.field
   field :destroyComment, field: CommentMutation::Destroy.field
 end

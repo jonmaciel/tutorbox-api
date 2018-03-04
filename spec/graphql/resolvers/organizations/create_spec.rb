@@ -33,11 +33,11 @@ describe Resolvers::Organizations::Create do
   }
 
   describe '#call' do
-    context 'when the uses has been created' do
+    context 'when the organization has been created' do
       let(:new_organization) { result[:organization] }
       let(:new_admin_user) { new_organization.users.first }
 
-       it 'shoud create organizations whit its rigth attributes' do
+       it 'creates organizations with its rigth attributes' do
         expect(new_organization).to be_persisted
         expect(new_organization.name).to eql new_organization_attributes[:name]
 
@@ -49,12 +49,12 @@ describe Resolvers::Organizations::Create do
       end
     end
 
-    context 'when the user has been created without admin' do
+    context 'when the organization has been created without admin' do
       let(:new_organization) { result[:organization] }
       let(:user_admin_attributes) { nil }
       let(:new_admin_user) { new_organization.users.first }
 
-       it 'shoud create organizations whit its rigth attributes' do
+       it 'creates organizations with its rigth attributes' do
         expect(new_organization).to be_persisted
         expect(new_organization.name).to eql new_organization_attributes[:name]
 
@@ -62,7 +62,7 @@ describe Resolvers::Organizations::Create do
       end
     end
 
-    context 'when the uses has not been created' do
+    context 'when the organization has not been created' do
       let(:current_user) { users(:software_house_admin) }
 
       it 'does not create a organization and returns error' do

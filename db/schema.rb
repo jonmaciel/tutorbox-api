@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
     t.bigint "author_id", null: false
     t.integer "comment_destination", null: false
     t.string "body"
+    t.boolean "read", default: false, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -6,17 +6,17 @@ describe Resolvers::Videos::Destroy do
   subject(:result) { described_class::call(nil, { id: target_video.id } , current_user: current_user ) }
 
   describe '#call' do
-    context 'when the uses has been created' do
+    context 'when the video has been destroyed' do
 
-      it 'shoud create users whit its rigth attributes' do
+      it 'destroys video' do
         expect { result }.to change { Video.count }.by(-1)
       end
     end
 
-    context 'when the uses has not been created' do
+    context 'when the video has not been destroyed' do
       let(:current_user) { users(:software_house_admin) }
 
-      it 'does not create a user and returns error' do
+      it 'does not destroy' do
         expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
       end
     end

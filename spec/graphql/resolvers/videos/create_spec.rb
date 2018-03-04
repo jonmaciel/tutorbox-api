@@ -16,10 +16,10 @@ describe Resolvers::Videos::Create do
   subject(:result) { described_class::call(nil, { newVideoAttributes: new_video_attributes } , current_user: current_user ) }
 
   describe '#call' do
-    context 'when the uses has been created' do
+    context 'when the video has been created' do
       let(:new_video) { result[:video] }
 
-       it 'shoud create users whit its rigth attributes' do
+       it 'creates video with its rigth attributes' do
         expect(new_video).to be_persisted
         expect(new_video.title).to eql new_video_attributes[:title]
         expect(new_video.description).to eql new_video_attributes[:description]

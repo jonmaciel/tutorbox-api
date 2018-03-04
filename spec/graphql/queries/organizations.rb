@@ -21,7 +21,7 @@ RSpec.describe 'organizations' do
 
   describe '#callcheck' do
     context 'when the user is allowed' do
-      it 'should return rights values' do
+      it 'returns rights values' do
         expect(result['data']['organizations']).to be_present
       end
     end
@@ -29,7 +29,7 @@ RSpec.describe 'organizations' do
     context 'when the user is not allowed' do
       let(:current_user) { users(:software_house_admin) }
 
-      it 'should return rights values' do
+      it 'does not return organizations' do
         expect(result['data']['organizations']).to be_nil
       end
     end

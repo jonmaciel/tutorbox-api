@@ -21,9 +21,8 @@ describe Resolvers::Users::Update do
   let(:updated_user) { result[:user] }
 
   describe '#call' do
-    context 'when the uses has been created' do
-
-      it 'shoud update user whit input attributes' do
+    context 'when the user has been updated' do
+      it 'shoud update user with input attributes' do
         expect(updated_user.id).to eql user_id
         expect(updated_user.name).to eql user_attributes[:name]
         expect(updated_user.email).to eql user_attributes[:email]
@@ -41,7 +40,7 @@ describe Resolvers::Users::Update do
         }
       }
 
-    it 'shoud update user whit input attributes' do
+    it 'update user with input attributes' do
         expect(updated_user.id).to eql user_id
         expect(updated_user.email).to eql user_attributes[:email]
         expect(updated_user.user_role).to eql user_attributes[:user_role]
@@ -51,7 +50,7 @@ describe Resolvers::Users::Update do
       end
     end
 
-    context 'when the uses has not been updated' do
+    context 'when the user has not been updated' do
       let(:current_user) { users(:software_house_admin) }
 
       it 'does not create a user and returns error' do

@@ -51,7 +51,7 @@ describe OrganizationMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the organization has been created' do
           it 'calls resolver and return user' do
             expect(Resolvers::Users::Create).to receive(:call).and_call_original
             expect(result['data']['createUser']['user']).to be_present
@@ -81,7 +81,7 @@ describe OrganizationMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the organization has been created' do
           it 'calls resolver and return user' do
             expect(Resolvers::Users::Update).to receive(:call).and_call_original
             expect(result['data']['updateUser']['user']).to be_present
@@ -105,7 +105,7 @@ describe OrganizationMutation do
       }
 
       describe '#execute' do
-        context 'when the uses has been created' do
+        context 'when the organization has been created' do
           it 'calls resolver and return user' do
             expect(Resolvers::Users::Destroy).to receive(:call).and_call_original
             expect(result['data']['destroyUser']['success']).to be_truthy
