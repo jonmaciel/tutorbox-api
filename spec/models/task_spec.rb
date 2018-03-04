@@ -5,5 +5,6 @@ describe Task, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:video) }
+    it { is_expected.to belong_to(:created_by) }
   end
 end

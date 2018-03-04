@@ -7,6 +7,7 @@ user = User.create!(name: 'User system admin',email: 'user_role_admin@mail.com' 
 
 video = Video.create(title: 'Default Video 1', system: first_system, created_by: user)
 Comment.create(video: video, author: user, comment_destination: 'administrative', body: 'Comment test')
+Task.create(video: video, created_by: user, name: 'Improve ths video')
 
 organization = Organization.create!(name: 'Tutorbox')
 User.create!(name: 'Jon',email: 'joaomaciel.n@mail.com' , password: '123123123' , password_confirmation: '123123123', user_role: :admin, organization: organization)

@@ -73,10 +73,13 @@ ActiveRecord::Schema.define(version: 20180303032443) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
+    t.boolean "done", default: false, null: false
     t.bigint "video_id", null: false
+    t.bigint "created_by_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_tasks_on_created_by_id"
     t.index ["deleted_at"], name: "index_tasks_on_deleted_at"
     t.index ["video_id"], name: "index_tasks_on_video_id"
   end
@@ -131,6 +134,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   add_foreign_key "comments", "videos"
   add_foreign_key "state_histories", "videos"
   add_foreign_key "systems", "organizations"
+  add_foreign_key "tasks", "users", column: "created_by_id"
   add_foreign_key "tasks", "videos"
   add_foreign_key "users", "organizations"
   add_foreign_key "users", "systems"
