@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Resolvers::Comment::Post do
+describe Resolvers::Comments::Post do
   let(:current_user) { users(:user_organization_admin) }
   let(:video) { videos(:default_video_2) }
   let(:input) {

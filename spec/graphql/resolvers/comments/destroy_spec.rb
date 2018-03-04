@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Resolvers::Comment::Destroy do
+describe Resolvers::Comments::Destroy do
   let(:current_user) { users(:user_organization_admin) }
   let(:target_comment) { comments(:comment_default_video_1) }
 

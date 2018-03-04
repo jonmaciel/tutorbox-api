@@ -1,5 +1,5 @@
 module Resolvers
-  module Comment
+  module Comments
     module Post
       class << self
         def call(_, input, context)
