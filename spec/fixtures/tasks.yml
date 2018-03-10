@@ -1,0 +1,11 @@
+task_default_video_1:
+  name: 'Emprovment 1' 
+  video: default_video_1
+  created_by: user_admin
+  done: false
+
+task_default_video_2:
+  name: 'Emprovment 1' 
+  video: default_video_2
+  created_by: user_organization_admin
+  done: true
