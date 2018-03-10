@@ -15,4 +15,8 @@ Types::MutationType = GraphQL::ObjectType.define do
   field :postComment, field: CommentMutation::Post.field
   field :editComment, field: CommentMutation::Edit.field
   field :destroyComment, field: CommentMutation::Destroy.field
+
+  field :createTask, field: TaskMutation::Create.field
+  field :updateTask, field: TaskMutation::Update.field
+  field :destroyTask, field: TaskMutation::Destroy.field
 end
