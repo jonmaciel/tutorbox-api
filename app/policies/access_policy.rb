@@ -9,6 +9,7 @@ class AccessPolicy
       can :manage, Organization
       can :manage, Task
       can :read_collection, Organization
+      can :read_collection, Video
       can [:cancel_video, :read_comments], Video
       can [:post, :edit, :destroy], Comment
     end
