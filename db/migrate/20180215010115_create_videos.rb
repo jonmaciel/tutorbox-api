@@ -3,6 +3,7 @@ class CreateVideos < ActiveRecord::Migration[5.1]
     create_table :videos do |t|
       t.string :title, null: false
       t.string :description
+      t.integer :version, default: 0
       t.string :url
       t.string :aasm_state
       t.json :labels

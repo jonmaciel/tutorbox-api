@@ -4,6 +4,7 @@ describe Types::VideoType do
   it { is_expected.to have_field(:id).of_type('ID') }
   it { is_expected.to have_field(:title).of_type('String') }
   it { is_expected.to have_field(:url).of_type('String') }
+  it { is_expected.to have_field(:version).of_type('String') }
   it { is_expected.to have_field(:aasm_state).of_type('String') }
   it { is_expected.to have_field(:labels).of_type([String]) }
   it { is_expected.to have_field(:created_by).of_type(Types::UserType) }

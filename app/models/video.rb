@@ -26,7 +26,7 @@ class Video < ApplicationRecord
       transitions from: [:draft], to: :canceled
     end
 
-    event :send_request do
+    event :send_request, :after => Proc.new { |*_| increase_version } do
       transitions from: [:draft], to: :script_creation
     end
 
@@ -34,7 +34,7 @@ class Video < ApplicationRecord
       transitions from: [:script_creation], to: :draft
     end
 
-    event :send_to_production do
+    event :send_to_production, :after => Proc.new { |*_| increase_version } do
       transitions from: [:script_creation], to: :production
     end
 
@@ -42,11 +42,11 @@ class Video < ApplicationRecord
       transitions from: [:production], to: :script_creation
     end
 
-    event :send_to_screenwriter_revision do
+    event :send_to_screenwriter_revision, :after => Proc.new { |*_| increase_version } do
       transitions from: [:production], to: :screenwriter_revision
     end
 
-    event :send_to_customer_revision do
+    event :send_to_customer_revision, :after => Proc.new { |*_| increase_version } do
       transitions from: [:screenwriter_revision], to: :customer_revision
     end
 
@@ -59,6 +59,12 @@ class Video < ApplicationRecord
     end
   end
 
+  def permited_events
+    aasm.events(permitted: true).map(&:name)
+  end
+
+  private
+
   def log_status_change
     state_histories << StateHistory.new(
                                       from_state: aasm.from_state,
@@ -67,7 +73,7 @@ class Video < ApplicationRecord
                                     )
   end
 
-  def permited_events
-    aasm.events(permitted: true).map(&:name)
+  def increase_version
+    self.version += 1
   end
 end

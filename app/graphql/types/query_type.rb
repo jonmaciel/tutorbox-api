@@ -29,7 +29,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :assignedVideos, types[Types::VideoType] do
     description 'Get organizations'
-    argument :userId, types.ID, 'Organization ID'
+    argument :userId, types.ID, 'User ID'
 
     resolve ->(_, input, context) do
       begin

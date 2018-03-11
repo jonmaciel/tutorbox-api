@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   create_table "videos", force: :cascade do |t|
     t.string "title", null: false
     t.string "description"
+    t.integer "version", default: 0
     t.string "url"
     t.string "aasm_state"
     t.json "labels"
