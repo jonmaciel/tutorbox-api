@@ -15,6 +15,7 @@ gem 'simple_command'
 gem 'aasm'
 gem 'access-granted', '~> 1.1.0'
 gem "paranoia", "~> 2.2"
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'pry-rails'
