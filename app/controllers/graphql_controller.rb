@@ -9,7 +9,7 @@ class GraphqlController < ApplicationController
   end
 
 # curl -H "Content-Type: application/json" -X POST -d '{"email":"example@mail.com","password":"123123123"}' http://localhost:3000/authenticate
-# curl -H "Content-Type: application/json" -H "Authorization: RETURNED_TOKEN" -X POST -d '{"query":"{ testField }"}' http://localhost:3000/graphql
+# curl -H "Content-Type: application/json" -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MjEyNTAwMjF9.Db8mwodhgENZ59QnRuZtqP0henxI4ku1uQkQNjk7TO8" -X POST -d '{"query":"{ videos { id title aasm_state } }"}' http://localhost:3000/graphql
 
   private
 
