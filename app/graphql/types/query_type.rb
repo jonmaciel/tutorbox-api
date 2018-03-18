@@ -31,7 +31,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     description 'Get organizations'
     resolve ->(_, input, context) do
       begin
-        raise 'Not authorized' unless context[:current_user].can?(:read_collection, Organization)
+        raise 'Not authorized' unless context[:current_user].can?(:read_collection, Video)
         Video.all
       rescue Exception => e
           GraphQL::ExecutionError.new(e.to_s)

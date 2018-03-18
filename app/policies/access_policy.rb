@@ -9,6 +9,7 @@ class AccessPolicy
       can :manage, Organization
       can :manage, Task
       can :read_collection, Organization
+      can :read_collection, User
       can :read_collection, Video
       can [:cancel_video, :read_comments], Video
       can [:post, :edit, :destroy], Comment
@@ -45,7 +46,7 @@ class AccessPolicy
         target_video.system.organization_id == current_user.organization_id
       end
 
-      can :manage, Organization do |target_organization, current_user|
+      can [:update, :destroy, :read], Organization do |target_organization, current_user|
         target_organization.id == current_user.organization_id
       end
 

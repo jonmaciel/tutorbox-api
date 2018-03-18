@@ -1,6 +1,6 @@
 module OrganizationMutation
   Create = GraphQL::Relay::Mutation.define do
-    name 'CreateUser'
+    name 'CreateOrganization'
     description 'Creates a Organization'
 
     input_field :newOrganizationAttributes, !OrganizationInput::Attributes, 'Organization Attributes'

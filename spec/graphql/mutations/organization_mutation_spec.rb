@@ -20,7 +20,7 @@ describe OrganizationMutation do
 
   describe '#callcheck' do
     let(:current_user) { users(:user_organization_admin) }
-    let(:organization) { organizations(:default_organization) }
+    let(:organization_target) { organizations(:default_organization) }
 
     let(:result) {
       TutorboxApiSchema.execute(
@@ -29,22 +29,18 @@ describe OrganizationMutation do
       )
     }
     describe '#create' do
+      let(:current_user) { users(:user_admin) }
       let(:mutation) {
          <<-GRAPHQL
           mutation {
-            createUser(
+            createOrganization(
               input: {
-                newUserAttributes: {
-                  name: "User teste",
-                  email: "usertest@mail.com",
-                  password: "123123123",
-                  password_confirmation: "123123123",
-                  user_role: organizationAdmin,
-                  organization_id: #{organization.id}
+                newOrganizationAttributes: {
+                  name: "User teste"
                 }
               }
             ) {
-              user { id }
+              organization { id }
             }
           }
         GRAPHQL
@@ -53,28 +49,26 @@ describe OrganizationMutation do
       describe '#execute' do
         context 'when the organization has been created' do
           it 'calls resolver and return user' do
-            expect(Resolvers::Users::Create).to receive(:call).and_call_original
-            expect(result['data']['createUser']['user']).to be_present
+            expect(Resolvers::Organizations::Create).to receive(:call).and_call_original
+            expect(result['data']['createOrganization']['organization']).to be_present
           end
         end
       end
     end
 
     describe '#update' do
-      let(:target_user) { users(:user_system_member) }
       let(:mutation) {
          <<-GRAPHQL
           mutation {
-            updateUser(
+            updateOrganization(
               input: {
-                id: #{target_user.id},
-                userAttributes: {
-                  email: "usertest@mail.com",
-                  name: "User teste"
+                id: #{organization_target.id},
+                organizationAttributes: {
+                  name: "Novo nome"
                 }
               }
             ) {
-              user { id }
+              organization { id }
             }
           }
         GRAPHQL
@@ -83,21 +77,20 @@ describe OrganizationMutation do
       describe '#execute' do
         context 'when the organization has been created' do
           it 'calls resolver and return user' do
-            expect(Resolvers::Users::Update).to receive(:call).and_call_original
-            expect(result['data']['updateUser']['user']).to be_present
+            expect(Resolvers::Organizations::Update).to receive(:call).and_call_original
+            expect(result['data']['updateOrganization']['organization']).to be_present
           end
         end
       end
     end
 
     describe '#destroy' do
-      let(:target_user) { users(:user_system_member) }
       let(:mutation) {
          <<-GRAPHQL
           mutation {
-            destroyUser(
+            destroyOrganization(
               input: {
-                id: #{target_user.id},
+                id: #{organization_target.id},
               }
             ) { success }
           }
@@ -107,8 +100,8 @@ describe OrganizationMutation do
       describe '#execute' do
         context 'when the organization has been created' do
           it 'calls resolver and return user' do
-            expect(Resolvers::Users::Destroy).to receive(:call).and_call_original
-            expect(result['data']['destroyUser']['success']).to be_truthy
+            expect(Resolvers::Organizations::Destroy).to receive(:call).and_call_original
+            expect(result['data']['destroyOrganization']['success']).to be_truthy
           end
         end
       end
