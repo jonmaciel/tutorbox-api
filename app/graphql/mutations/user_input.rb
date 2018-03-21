@@ -11,6 +11,7 @@ module UserInput
     argument :password_confirmation, types.String, 'The user password_confirmation'
     argument :user_role, MutationEnums::UserRoles, 'The user user_role'
     argument :organization_id, types.ID, 'The organization ID'
+    argument :system_id, types.ID, 'The system ID'
     # argument :systems_params, types.ID, 'The system ID'
   end
 end

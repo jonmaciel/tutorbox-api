@@ -1,6 +1,10 @@
 Types::MutationType = GraphQL::ObjectType.define do
   name 'Mutation'
 
+  field :createSystem, field: SystemMutation::Create.field
+  field :updateSystem, field: SystemMutation::Update.field
+  field :destroySystem, field: SystemMutation::Destroy.field
+
   field :createOrganization, field: OrganizationMutation::Create.field
   field :updateOrganization, field: OrganizationMutation::Update.field
   field :destroyOrganization, field: OrganizationMutation::Destroy.field

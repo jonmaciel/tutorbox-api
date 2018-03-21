@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   belongs_to :organization, inverse_of: :users
+  belongs_to :system, inverse_of: :users, optional: true
   has_many :created_videos, foreign_key: :created_by_id, class_name: 'Video'
   has_and_belongs_to_many :videos, inverse_of: :users
 
@@ -38,6 +39,7 @@ class User < ApplicationRecord
   private
 
   def send_welcome_email
-    UserMailer.welcome_email(self).deliver
+    # UserMailer.welcome_email(self).deliver
+    true
   end
 end

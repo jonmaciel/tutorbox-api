@@ -8,6 +8,7 @@ class AccessPolicy
       can :assign, Video
       can :manage, Organization
       can :manage, Task
+      can :manage, System
       can :read_collection, Organization
       can :read_collection, User
       can :read_collection, Video

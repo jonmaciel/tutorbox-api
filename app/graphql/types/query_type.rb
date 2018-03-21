@@ -53,6 +53,32 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
 
+  field :users, types[Types::UserType] do
+    description 'Get organizations'
+    resolve ->(_, input, context) do
+      begin
+        raise 'Not authorized' unless context[:current_user].can?(:read_collection, User)
+        User.all
+      rescue Exception => e
+          GraphQL::ExecutionError.new(e.to_s)
+      end
+    end
+  end
+
+  field :user, Types::UserType do
+    argument :id, !types.ID, 'Video ID'
+    description 'Get organizations'
+    resolve ->(_, input, context) do
+      begin
+        user = User.find(input[:id])
+        raise 'Not authorized' unless context[:current_user].can?(:read, user)
+        user
+      rescue Exception => e
+          GraphQL::ExecutionError.new(e.to_s)
+      end
+    end
+  end
+
   field :assignedVideos, types[Types::VideoType] do
     description 'Get organizations'
     argument :userId, types.ID, 'User ID'
