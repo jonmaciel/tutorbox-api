@@ -10,12 +10,18 @@ class AccessPolicy
       can :read_collection, Organization
       can [:cancel_video, :read_comments], Video
       can [:post, :edit, :destroy], Comment
+      can [:create, :update, :destroy], Task
     end
 
     role :script_writer, user_role: 'script_writer' do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
         target_comment.id == current_user.organization_id
+      end
+
+      can [:create, :update, :destroy], Task do |target_task, current_user|
+        current_user.video_ids.include?(target_task.video_id) &&
+        target_task.id == current_user.organization_id
       end
 
       can [:read_comments], Video do |target_video, current_user|
@@ -25,8 +31,11 @@ class AccessPolicy
 
     role :video_producer, user_role: 'video_producer' do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
-        current_user.video_ids.include?(target_comment.video_id) &&
-        target_comment.id == current_user.organization_id
+        current_user.video_ids.include?(target_comment.video_id)
+      end
+
+      can [:create, :update, :destroy], Task do |target_task, current_user|
+        current_user.video_ids.include?(target_task.video_id)
       end
 
       can [:read_comments], Video do |target_video, current_user|
@@ -51,6 +60,10 @@ class AccessPolicy
         target_comment.video.system.organization_id == current_user.organization_id
       end
 
+      can [:create, :update, :destroy], Task do |target_task, current_user|
+        target_task.video.system.organization_id == current_user.organization_id
+      end
+
       can [:read_comments], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
@@ -67,6 +80,10 @@ class AccessPolicy
 
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         target_comment.video.system_id == current_user.system_id
+      end
+
+      can [:create, :update, :destroy], Task do |target_task, current_user|
+        target_task.video.system_id == current_user.system_id
       end
 
       can [:read_comments], Video do |target_video, current_user|
@@ -87,6 +104,11 @@ class AccessPolicy
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         target_comment.video.system_id == current_user.system_id &&
         target_comment.author_id == current_user.id
+      end
+
+      can [:create, :update, :destroy], Task do |target_task, current_user|
+        target_task.video.system_id == current_user.system_id &&
+        target_task.created_by_id == current_user.id
       end
 
       can [:read_comments], Video do |target_video, current_user|

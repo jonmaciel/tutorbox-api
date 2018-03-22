@@ -1,0 +1,11 @@
+task_default_video_1:
+  video: default_video_1
+  created_by: user_admin
+  name: 'testing this'
+  done: true
+
+task_default_video_2:
+  video: default_video_2
+  created_by: user_admin
+  name: 'testing this'
+  done: false
