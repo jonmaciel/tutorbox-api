@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20180303032443) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.bigint "organization_id", null: false
+    t.bigint "organization_id"
     t.bigint "system_id"
     t.string "name", null: false
     t.string "email", null: false

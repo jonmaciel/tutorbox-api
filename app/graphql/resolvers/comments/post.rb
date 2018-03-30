@@ -10,12 +10,10 @@ module Resolvers
             author: context[:current_user]
           )
 
-          raise 'Not authorized' unless context[:current_user].can?(:post, new_comment)
+          context[:current_user].authorize!(:post, new_comment)
           new_comment.save!
 
           { comment: new_comment }
-        rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
         end
       end
     end

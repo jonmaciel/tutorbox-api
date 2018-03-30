@@ -13,6 +13,13 @@ describe Video, type: :model do
     it { is_expected.to have_many(:attachments) }
   end
 
+  describe '#public_events' do
+    describe '#authorize_event!' do
+      it { expect { video.authorize_event!(:fake) }.to raise_error(Exceptions::NotPermittedEvent) }
+      it { expect(video.authorize_event!(:send_request)).to be_truthy }
+    end
+  end
+
   describe '#aasm' do
     context 'state transitions' do
       it { is_expected.to transition_from(:draft).to(:canceled).on_event(:cancel_video) }

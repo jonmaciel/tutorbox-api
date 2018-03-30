@@ -1,11 +1,11 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
   def change
     create_table :users do |t|
-      t.belongs_to :organization, foreign_key: true, null: false
+      t.belongs_to :organization, foreign_key: true
       t.belongs_to :system, foreign_key: true
 
       t.string :name, null: false
-      t.string :email, null: false
+      t.string :email, null: false, unique: true, index: true
       t.string :password_digest, null: false
       t.integer :user_role, null: false
       t.string :cellphone

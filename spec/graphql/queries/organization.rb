@@ -31,6 +31,7 @@ RSpec.describe 'organization' do
 
       it 'does not return organization' do
         expect(result['data']['organization']).to be_nil
+        expect(result['errors']['errors'][0]['message']).to eql 'Permission denied'
       end
     end
   end

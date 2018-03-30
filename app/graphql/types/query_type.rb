@@ -5,37 +5,25 @@ Types::QueryType = GraphQL::ObjectType.define do
     description 'Get single organization'
     argument :id, !types.ID, 'Organization ID'
     resolve ->(_, input, context) do
-      begin
-        organization = Organization.find(input[:id])
-        raise 'Not authorized' unless context[:current_user].can?(:read, organization)
-        organization
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      organization = Organization.find(input[:id])
+      context[:current_user].authorize!(:read, organization)
+      organization
     end
   end
 
   field :organizations, types[Types::OrganizationType] do
     description 'Get organizations'
     resolve ->(_, input, context) do
-      begin
-        raise 'Not authorized' unless context[:current_user].can?(:read_collection, Organization)
-        Organization.all
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      context[:current_user].authorize!(:read_collection, Organization)
+      Organization.all
     end
   end
 
   field :videos, types[Types::VideoType] do
     description 'Get organizations'
     resolve ->(_, input, context) do
-      begin
-        raise 'Not authorized' unless context[:current_user].can?(:read_collection, Video)
-        Video.all
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      context[:current_user].authorize!(:read_collection, Video)
+      Video.all
     end
   end
 
@@ -43,25 +31,25 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID, 'Video ID'
     description 'Get organizations'
     resolve ->(_, input, context) do
-      begin
-        video = Video.find(input[:id])
-        raise 'Not authorized' unless context[:current_user].can?(:read, video)
-        video
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      video = Video.find(input[:id])
+      context[:current_user].authorize!(:read, video)
+      video
+    end
+  end
+
+  field :tutormakers, types[Types::UserType] do
+    description 'Get organizations'
+    resolve ->(_, input, context) do
+      context[:current_user].authorize!(:read_tutormakers, User)
+      User.tutormakers
     end
   end
 
   field :users, types[Types::UserType] do
     description 'Get organizations'
     resolve ->(_, input, context) do
-      begin
-        raise 'Not authorized' unless context[:current_user].can?(:read_collection, User)
-        User.all
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      context[:current_user].authorize!(:read_collection, User)
+      User.all
     end
   end
 
@@ -69,13 +57,9 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID, 'Video ID'
     description 'Get organizations'
     resolve ->(_, input, context) do
-      begin
-        user = User.find(input[:id])
-        raise 'Not authorized' unless context[:current_user].can?(:read, user)
-        user
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      user = User.find(input[:id])
+      context[:current_user].authorize!(:read, user)
+      user
     end
   end
 
@@ -84,13 +68,10 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :userId, types.ID, 'User ID'
 
     resolve ->(_, input, context) do
-      begin
-        raise 'Not authorized' if input[:userId] && !context[:current_user].can?(:read_collection, Video)
-        user = input[:userId] ? User.find(input[:userId]) : context[:current_user]
-        user.videos
-      rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
-      end
+      input[:userId] && !context[:current_user].authorize!(:read_collection, Video)
+
+      user = input[:userId] ? User.find(input[:userId]) : context[:current_user]
+      user.videos
     end
   end
 end

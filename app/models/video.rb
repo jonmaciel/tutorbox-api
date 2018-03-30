@@ -11,6 +11,11 @@ class Video < ApplicationRecord
 
   acts_as_paranoid
 
+  def authorize_event!(event)
+    return true if permited_events.include?(event)
+    raise Exceptions::NotPermittedEvent.new
+  end
+
   aasm do
     state :canceled
     state :draft, initial: true

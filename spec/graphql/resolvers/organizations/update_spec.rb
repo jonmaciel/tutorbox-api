@@ -40,7 +40,7 @@ describe Resolvers::Organizations::Update do
       let(:current_user) { users(:user_system_member) }
 
       it 'does not create a organization and returns error' do
-        expect(result.is_a?(GraphQL::ExecutionError)).to be_truthy
+        expect { subject }.to raise_error(Exceptions::PermissionDeniedError)
       end
     end
   end

@@ -17,6 +17,7 @@ gem 'access-granted', '~> 1.1.0'
 gem 'paranoia', '~> 2.2'
 gem 'batch-loader'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'graphql-errors'
 
 group :development, :test do
   gem 'pry-rails'

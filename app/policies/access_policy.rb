@@ -11,6 +11,7 @@ class AccessPolicy
       can :manage, System
       can :read_collection, Organization
       can :read_collection, User
+      can :read_tutormakers, User
       can :read_collection, Video
       can [:cancel_video, :read_comments], Video
       can [:post, :edit, :destroy], Comment

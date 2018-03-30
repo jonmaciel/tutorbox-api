@@ -7,14 +7,12 @@ module Resolvers
 
           event = input[:event].underscore.to_sym
 
-          raise 'Not permitted event' unless video_to_change.permited_events.include?(event)
-          raise 'Not authorized' unless context[:current_user].can?(event, video_to_change)
+          video_to_change.authorize_event!(event)
+          context[:current_user].authorize!(event, video_to_change)
 
           video_to_change.send(event)
 
           { success: true }
-        rescue Exception => e
-          GraphQL::ExecutionError.new(e.to_s)
         end
       end
     end
