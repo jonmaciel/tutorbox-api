@@ -4,7 +4,7 @@ describe Resolvers::Videos::ChangeState do
   let(:current_user) { users(:user_organization_admin) }
   let(:target_video) { videos(:default_video_1) }
   let(:event) { 'cancel_video' }
-  subject(:result) { described_class::call(nil, { id: target_video.id, event: event } , current_user: current_user ) }
+  subject(:result) { described_class::call(nil, { videoId: target_video.id, event: event } , current_user: current_user ) }
 
   describe '#call' do
     context 'when the video state has been changed' do

@@ -36,7 +36,7 @@ module VideoMutation
     name 'ChangeStateVideo'
     description 'Change State a Video'
 
-    input_field :id, !types.ID, 'The video ID'
+    input_field :videoId, !types.ID, 'The video ID'
     input_field :event, !types.String, 'The video state transition'
 
     return_field :success, types.Boolean, 'Returns operation status'

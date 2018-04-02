@@ -22,8 +22,12 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :videos, types[Types::VideoType] do
     description 'Get organizations'
     resolve ->(_, input, context) do
-      context[:current_user].authorize!(:read_collection, Video)
-      Video.all
+      current_user = context[:current_user]
+      current_user.authorize!(:read_collection, Video)
+
+      return Video.all if current_user.admin?
+      return Video.where(aasm_state: :script_creation) if current_user.script_writer?
+      []
     end
   end
 

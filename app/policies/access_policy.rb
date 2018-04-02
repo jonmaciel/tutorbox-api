@@ -13,11 +13,14 @@ class AccessPolicy
       can :read_collection, User
       can :read_tutormakers, User
       can :read_collection, Video
-      can [:cancel_video, :read_comments], Video
+      can [:cancel_video, :send_request], Video
+      can :read_comments, Video
       can [:post, :edit, :destroy], Comment
     end
 
     role :script_writer, user_role: 'script_writer' do
+      can :manage, Video
+      can :read_collection, Video
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
         target_comment.id == current_user.organization_id

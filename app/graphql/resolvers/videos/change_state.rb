@@ -3,7 +3,7 @@ module Resolvers
     module ChangeState
       class << self
         def call(_, input, context)
-          video_to_change = Video.find(input[:id])
+          video_to_change = Video.find(input[:videoId])
 
           event = input[:event].underscore.to_sym
 
@@ -11,6 +11,8 @@ module Resolvers
           context[:current_user].authorize!(event, video_to_change)
 
           video_to_change.send(event)
+
+          video_to_change.save!
 
           { success: true }
         end
