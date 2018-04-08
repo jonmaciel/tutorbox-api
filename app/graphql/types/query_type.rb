@@ -41,6 +41,19 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
 
+
+  field :attachments, types[Types::AttachmentType] do
+    description 'Get attachments'
+    argument :videoId, !types.ID, 'Video ID'
+    resolve ->(_, input, context) do
+      video = Video.find(input[:videoId])
+
+      context[:current_user].authorize!(:video_attachments, video)
+
+      video.attachments
+    end
+  end
+
   field :tutormakers, types[Types::UserType] do
     description 'Get organizations'
     resolve ->(_, input, context) do

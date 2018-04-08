@@ -1,0 +1,6 @@
+default_attachment:
+  name: 'attachment'
+  url: '/fake/url'
+  source: default_video_1
+  source_type: Video
+  created_by: user_admin

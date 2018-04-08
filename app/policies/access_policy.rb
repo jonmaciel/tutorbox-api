@@ -9,12 +9,14 @@ class AccessPolicy
       can :manage, Organization
       can :manage, Task
       can :manage, System
+      can :manage, Attachment
       can :read_collection, Organization
       can :read_collection, User
       can :read_tutormakers, User
       can :read_collection, Video
+      can :read_collection, Attachment
       can [:cancel_video, :send_request], Video
-      can :read_comments, Video
+      can [:read_comments, :video_attachments], Video
       can [:post, :edit, :destroy], Comment
     end
 
@@ -26,7 +28,7 @@ class AccessPolicy
         target_comment.id == current_user.organization_id
       end
 
-      can [:read_comments], Video do |target_video, current_user|
+      can [:read_comments, :video_attachments], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id)
       end
     end
@@ -34,10 +36,15 @@ class AccessPolicy
     role :video_producer, user_role: 'video_producer' do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
-        target_comment.id == current_user.organization_id
+        target_comment.video.system.organization_id == current_user.organization_id
       end
 
-      can [:read_comments], Video do |target_video, current_user|
+      can [:create, :destroy], Attachment do |target_attatchment, current_user|
+        current_user.video_ids.include?(target_attatchment.video_id) &&
+        target_comment.video.source.organization_id == current_user.organization_id
+      end
+
+      can [:read_comments, :video_attachments], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id)
       end
     end
@@ -49,6 +56,10 @@ class AccessPolicy
 
       can [:create, :update, :destroy, :read, :cancel_video], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
+      end
+
+      can [:create, :destroy], Attachment do |target_attatchment, current_user|
+        target_attatchment.source.system.organization_id == current_user.organization_id
       end
 
       can [:update, :destroy, :read], Organization do |target_organization, current_user|
@@ -63,7 +74,7 @@ class AccessPolicy
         task_target.video.system.organization_id == current_user.organization_id
       end
 
-      can [:read_comments], Video do |target_video, current_user|
+      can [:read_comments, :video_attachments], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
     end
@@ -85,8 +96,12 @@ class AccessPolicy
         task_target.video.system_id == current_user.system_id
       end
 
-      can [:read_comments], Video do |target_video, current_user|
+      can [:read_comments, :video_attachments], Video do |target_video, current_user|
         target_video.system_id == current_user.system_id
+      end
+
+      can [:create, :destroy], Attachment do |target_attatchment, current_user|
+        target_attatchment.source.system.organization_id == current_user.organization_id
       end
     end
 
@@ -110,9 +125,13 @@ class AccessPolicy
         task_target.author_id == current_user.id
       end
 
-      can [:read_comments], Video do |target_video, current_user|
+      can [:read_comments, :video_attachments], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id) &&
         target_video.system_id == current_user.system_id
+      end
+
+      can [:create, :destroy], Attachment do |target_attatchment, current_user|
+        target_attatchment.source.system.organization_id == current_user.organization_id
       end
     end
   end
