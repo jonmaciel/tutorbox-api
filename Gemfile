@@ -18,6 +18,12 @@ gem 'paranoia', '~> 2.2'
 gem 'batch-loader'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'graphql-errors'
+gem 'carrierwave'
+gem 'carrierwave-base64'
+gem 'fog'
+gem 'figaro'
+gem 'unf'
+gem 'aws-sdk-s3'
 
 group :development, :test do
   gem 'pry-rails'

@@ -5,10 +5,11 @@ module AttachmentMutation
 
     input_field :sourceId, !types.ID, 'Source ID'
     input_field :name, types.String, 'Attachment name'
+    input_field :file, types.String, 'Attachment base64 file'
     input_field :url, !types.String, 'Attachment url'
     return_field :attachment, Types::AttachmentType, 'Returns information about the new attachment'
 
-    resolve Resolvers::Attachments::Create
+  resolve Resolvers::Attachments::Create
   end
 
   Destroy = GraphQL::Relay::Mutation.define do
