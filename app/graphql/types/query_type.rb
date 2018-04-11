@@ -91,4 +91,17 @@ Types::QueryType = GraphQL::ObjectType.define do
       user.videos
     end
   end
+
+  field :s3SignedUrl, types.String do
+    resolve ->(_, input, context) do
+      storage = Fog::Storage.new(
+        provider: 'AWS',
+        aws_access_key_id: 'AKIAIYZDDECTXTMSGEDA',
+        aws_secret_access_key: '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',
+        region:'us-east-2'
+      )
+
+      storage.put_object_url('tutorbox-files', "#{SecureRandom.hex(8)}", 15.minutes.from_now.to_time.to_i)
+    end
+  end
 end

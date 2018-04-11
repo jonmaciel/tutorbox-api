@@ -19,6 +19,7 @@ module Resolvers
           file_name = SecureRandom.hex(8)
           obj = s3.bucket('tutorbox-files')
           obj.load
+          require 'pry'; binding.pry
           obj.object(file_name).upload_file(path)
 
           new_attachment = Attachment.new(
