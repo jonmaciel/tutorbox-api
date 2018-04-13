@@ -2,7 +2,7 @@ class UploadFileController < ApplicationController
   def create
     # In the controller
     options = { path_style: true }
-    headers = { 'Content-Type' => params[:contentType], 'x-amz-acl' => 'public-read' }
+    headers = { 'Content-Type' => 'text/plain;charset=UTF-8', 'x-amz-acl' => 'public-read' }
 
     url = storage.put_object_url('tutorbox-files', "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
 

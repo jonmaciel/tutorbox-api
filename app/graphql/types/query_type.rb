@@ -94,14 +94,21 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :s3SignedUrl, types.String do
     resolve ->(_, input, context) do
-      storage = Fog::Storage.new(
-        provider: 'AWS',
-        aws_access_key_id: 'AKIAIYZDDECTXTMSGEDA',
-        aws_secret_access_key: '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',
-        region:'us-east-2'
-      )
+      require 'aws-sdk-s3'
+      options = {
+        region: 'us-east-1',
+        credentials: Aws::Credentials.new('AKIAIDV3FJF3WMG5GHHA',
+                                          'q2tiO8ZKhbr/FvIkZYj5Ozl+9qhPl9DqLc3rAu6Z')
+      }
+      Aws.config.update(options)
 
-      storage.put_object_url('tutorbox-files', "#{SecureRandom.hex(8)}", 15.minutes.from_now.to_time.to_i)
+      s3 = Aws::S3::Resource.new.bucket('tutorboxfiles')
+      object = s3.object('qualquercoisa')
+      object.presigned_url(
+        :put,
+        expires_in: 5.minutes.to_i,
+        acl: 'public-read'
+      )
     end
   end
 end

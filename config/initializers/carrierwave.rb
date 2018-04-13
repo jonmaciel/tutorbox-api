@@ -1,9 +1,9 @@
 CarrierWave.configure do |config|
   config.fog_credentials = {
     :provider               => "AWS",
-    :region                 => 'us-east-2',
-    :aws_access_key_id      => 'AKIAJPNKRN5S35O6XG6Q',
-    :aws_secret_access_key  => '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'
+    :region                 => 'us-east-1',
+    aws_access_key_id: 'AKIAIYZDDECTXTMSGEDA',
+    aws_secret_access_key: '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',
   }
 
   if Rails.env.production?
@@ -11,6 +11,6 @@ CarrierWave.configure do |config|
     config.cache_dir = "#{Rails.root}/tmp/uploads"
   end
 
-  config.fog_directory  = 'tutorbox-files'
+  config.fog_directory  = 'tutorboxfiles'
   config.fog_public     = false
 end
