@@ -91,4 +91,33 @@ Types::QueryType = GraphQL::ObjectType.define do
       user.videos
     end
   end
+
+  field :s3SignedUrl, Types::S3Type do
+    argument :fileType, types.String, 'User ID'
+    resolve ->(_, input, context) do
+      return unless input[:fileType]
+
+      require 'aws-sdk-s3'
+
+      new_name = "#{SecureRandom.hex}.#{input[:fileType].split('/').last}"
+
+      Aws.config.update({
+        region: 'us-east-1',
+        credentials: Aws::Credentials.new('AKIAIDV3FJF3WMG5GHHA', 'q2tiO8ZKhbr/FvIkZYj5Ozl+9qhPl9DqLc3rAu6Z')
+      })
+
+      s3 = Aws::S3::Resource.new.bucket('tutorboxfiles')
+
+      object = s3.object(new_name)
+
+      {
+        file_name: new_name,
+        signed_url: object.presigned_url(
+                    :put,
+                    expires_in: 5.minutes.to_i,
+                    acl: 'public-read'
+                  )
+      }
+    end
+  end
 end

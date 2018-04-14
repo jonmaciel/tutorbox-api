@@ -18,6 +18,7 @@ gem 'paranoia', '~> 2.2'
 gem 'batch-loader'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'graphql-errors'
+gem 'aws-sdk-s3'
 
 group :development, :test do
   gem 'pry-rails'
