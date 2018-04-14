@@ -18,7 +18,7 @@ describe VideoMutation do
   end
 
   describe VideoMutation::ChangeState do
-    it { is_expected.to have_an_input_field(:id).of_type('ID!') }
+    it { is_expected.to have_an_input_field(:videoId).of_type('ID!') }
     it { is_expected.to have_an_input_field(:event).of_type('String!') }
     it { is_expected.to have_a_return_field(:success).returning('Boolean') }
   end
@@ -125,7 +125,7 @@ describe VideoMutation do
           mutation {
             changeVideoState(
               input: {
-                id: #{target_video.id},
+                videoId: #{target_video.id},
                 event: "cancel_video"
               }
             ) { success }

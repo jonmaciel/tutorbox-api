@@ -3,14 +3,20 @@ module Resolvers
     module Unassign
       class << self
         def call(_, input, context)
-          context[:current_user].authorize!(:assign, Video)
+          current_user = context[:current_user]
+          current_user.authorize!(:assign, Video)
 
-          user_to_be_unassigned = User.find(input[:userId])
-          video_to_unassign = Video.find(input[:videoId])
+          user_to_unassign = User.find(input[:userId])
 
-          user_to_be_unassigned.videos.delete(video_to_unassign)
+          if (current_user.end_user? && user_to_unassign.tutormaker?) || current_user.video_producer?
+            raise Exceptions::PermissionDeniedError.new
+          end
 
-          { success: user_to_be_unassigned.save! }
+          video_to_be_unassigned = Video.find(input[:videoId])
+
+          video_to_be_unassigned.users.delete(user_to_unassign)
+
+          { success: video_to_be_unassigned.save! }
         end
       end
     end

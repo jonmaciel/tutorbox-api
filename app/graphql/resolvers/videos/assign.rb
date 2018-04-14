@@ -3,15 +3,20 @@ module Resolvers
     module Assign
       class << self
         def call(_, input, context)
-          context[:current_user].authorize!(:assign, Video)
+          current_user = context[:current_user]
+          current_user.authorize!(:assign, Video)
 
-          user_to_be_assigned = User.find(input[:userId])
-          video_to_assign = Video.find(input[:videoId])
+          user_to_assign = User.find(input[:userId])
 
-          user_to_be_assigned.videos << video_to_assign
-          user_to_be_assigned.save!
+          if (current_user.end_user? && user_to_assign.tutormaker?) || current_user.video_producer?
+            raise Exceptions::PermissionDeniedError.new
+          end
 
-          { success: true }
+          video_to_be_assigned = Video.find(input[:videoId])
+
+          video_to_be_assigned.users << user_to_assign
+
+          { success: video_to_be_assigned.save! }
         end
       end
     end

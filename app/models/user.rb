@@ -25,6 +25,7 @@ class User < ApplicationRecord
   delegate :can?, to: :access_policy
 
   END_USER = ['organization_admin', 'system_admin', 'system_member'].freeze
+  TUTORMAKER = ['admin', 'script_writer', 'video_producer'].freeze
 
   def authorize!(role, obj)
     return true if can?(role, obj)
@@ -33,6 +34,10 @@ class User < ApplicationRecord
 
   def end_user?
     user_role.in?(END_USER)
+  end
+
+  def tutormaker?
+    user_role.in?(TUTORMAKER)
   end
 
   def access_policy

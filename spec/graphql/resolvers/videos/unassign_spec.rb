@@ -15,10 +15,18 @@ describe Resolvers::Videos::Unassign do
 
   describe '#call' do
     context 'when the video has been unassigned' do
-
       it 'Unassigns users' do
         expect(result).to be_truthy
         expect(target_video.reload.users).to match_array []
+      end
+    end
+
+    context 'when the user ia a end_user trying to sign a tutormaker' do
+      let(:current_user) { users(:user_system_member) }
+      let(:target_user) { users(:user_script_writer) }
+
+      it 'does not assign a video and returns error' do
+        expect { subject }.to raise_error(Exceptions::PermissionDeniedError)
       end
     end
 

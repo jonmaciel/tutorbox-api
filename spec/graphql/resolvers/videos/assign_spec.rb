@@ -16,6 +16,15 @@ describe Resolvers::Videos::Assign do
       end
     end
 
+    context 'when the user ia a end_user trying to sign a tutormaker' do
+      let(:current_user) { users(:user_system_member) }
+      let(:target_user) { users(:user_script_writer) }
+
+      it 'does not assign a video and returns error' do
+        expect { subject }.to raise_error(Exceptions::PermissionDeniedError)
+      end
+    end
+
     context 'when the video has not been assigned' do
       let(:current_user) { users(:software_house_admin) }
 
