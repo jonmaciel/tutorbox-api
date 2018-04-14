@@ -23,6 +23,7 @@ class AccessPolicy
     role :script_writer, user_role: 'script_writer' do
       can :manage, Video
       can :read_collection, Video
+      can :read, Organization
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id) &&
         target_comment.id == current_user.organization_id

@@ -84,11 +84,14 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :organizationId, !types.ID, 'Video ID'
     description 'Get organizations'
     resolve ->(_, input, context) do
+      current_user = context[:current_user]
       organization = Organization.find(input[:organizationId])
 
-      context[:current_user].authorize!(:show, organization)
+      current_user.authorize!(:read, organization)
 
-      return users(system: current_user.organization.systems) if current_user.end_user?
+      users = organization.users
+
+      return users if current_user.end_user?
       return users.or(User.where(organization: nil)) if current_user.admin? || current_user.script_writer?
       []
     end

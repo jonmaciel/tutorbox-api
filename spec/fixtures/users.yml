@@ -3,7 +3,18 @@ user_admin:
   user_role: 'admin'
   password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'admin@mail.com'
-  organization: default_organization
+
+user_script_writer:
+  name: 'User Script Writer'
+  user_role: 'script_writer'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
+  email: 'script_writer@mail.com'
+
+user_video_producer:
+  name: 'User Video Producer'
+  user_role: 'video_producer'
+  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
+  email: 'video_producer@mail.com'
 
 user_organization_admin:
   name: 'User Organization Admin'
@@ -17,13 +28,6 @@ user_system_admin:
   user_role: 'system_admin'
   password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
   email: 'system_admin@mail.com'
-  organization: default_organization
-
-user_video_producer:
-  name: 'User Video Producer'
-  user_role: 'video_producer'
-  password_digest: '$2a$10$Yti7GJcQLdGY4oKsJ2bA5.qhCK/yC/gsEnjciW8RYCt.vNgfAsDpe'
-  email: 'video_producer@mail.com'
   organization: default_organization
 
 user_system_member:
