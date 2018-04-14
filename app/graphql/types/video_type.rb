@@ -14,12 +14,13 @@ Types::VideoType = GraphQL::ObjectType.define do
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
   field :tasks, types[Types::TaskType]
+  field :system, Types::SystemType
 
   field :comments, types[Types::CommentType] do
     resolve ->(video, _input, context) do
-      comments = video.comments.includes(:author).last(20)
+      comments = video.comments.includes(:author)
       comments.where(comment_destination: :customer) if context[:current_user].end_user?
-      comments
+      comments.last(20)
     end
   end
 end
