@@ -38,6 +38,11 @@ describe Video, type: :model do
         expect_any_instance_of(AASM::InstanceBase).to receive(:events).with(permitted: true).and_call_original
         video.permited_events
       end
+
+      it 'does note permit going to production if description is emptu' do
+        video.description = ''
+         expect { is_expected.to transition_from(:draft).to(:script_creation).on_event(:send_request) }.to raise_error(AASM::InvalidTransition)
+      end
     end
 
     context 'historing the transitions' do

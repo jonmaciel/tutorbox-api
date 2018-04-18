@@ -31,3 +31,12 @@
 
 en:
   hello: "Hello world"
+  video:
+    state:
+      canceled: Canceled
+      draft: Draft
+      script_creation: Script Creation
+      production: Production
+      screenwriter_revision: Screenwriter Revision
+      customer_revision: CustomerRevision
+      approved: Approved

@@ -11,6 +11,11 @@ class Video < ApplicationRecord
 
   acts_as_paranoid
 
+
+  def state_verbose
+    I18n.t("video.state.#{aasm_state}")
+  end
+
   def authorize_event!(event)
     return true if permited_events.include?(event)
     raise Exceptions::NotPermittedEvent.new
@@ -31,8 +36,8 @@ class Video < ApplicationRecord
       transitions from: [:draft], to: :canceled
     end
 
-    event :send_request, :after => Proc.new { |*_| increase_version } do
-      transitions from: [:draft], to: :script_creation
+    event :send_request, after: Proc.new { |*_| increase_version } do
+      transitions from: [:draft], to: :script_creation, guard: :description_present?
     end
 
     event :cancel_request do
@@ -80,5 +85,9 @@ class Video < ApplicationRecord
 
   def increase_version
     self.version += 1
+  end
+
+  def description_present?
+    description.present?
   end
 end

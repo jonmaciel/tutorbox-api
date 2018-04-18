@@ -8,6 +8,7 @@ Types::VideoType = GraphQL::ObjectType.define do
   field :url, types.String
   field :version, types.String
   field :aasm_state, types.String
+  field :state_verbose, types.String
   field :labels, types[types.String]
   field :created_by, Types::UserType
   field :users, types[Types::UserType]
