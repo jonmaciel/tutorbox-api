@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303032443) do
+ActiveRecord::Schema.define(version: 20180421190127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(version: 20180303032443) do
     t.index ["user_id"], name: "index_users_videos_on_user_id"
     t.index ["video_id", "user_id"], name: "index_users_videos_on_video_id_and_user_id"
     t.index ["video_id"], name: "index_users_videos_on_video_id"
+  end
+
+  create_table "video_notifications", force: :cascade do |t|
+    t.bigint "video_id"
+    t.bigint "user_id"
+    t.string "body"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_video_notifications_on_user_id"
+    t.index ["video_id"], name: "index_video_notifications_on_video_id"
   end
 
   create_table "videos", force: :cascade do |t|

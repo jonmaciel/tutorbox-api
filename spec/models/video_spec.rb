@@ -45,43 +45,39 @@ describe Video, type: :model do
       end
     end
 
-    context 'historing the transitions' do
-      it { expect { video.cancel_video! }.to change{ StateHistory.count }.by(1) }
-
-      it 'logs all state transitions' do
-        expect do
-          video.send_request!
-          video.cancel_request!
-          video.send_request!
-          video.send_to_production!
-          video.cancel_production!
-          video.send_to_production!
-          video.send_to_screenwriter_revision!
-          video.send_to_customer_revision!
-          video.refused_by_customer!
-          video.send_to_customer_revision!
-          video.approved_by_customer!
-        end.to change{ StateHistory.count }.by(11)
+    describe '#event callback' do
+      let(:full_transition!) do
+        video.send_request!
+        video.cancel_request!
+        video.send_request!
+        video.send_to_production!
+        video.cancel_production!
+        video.send_to_production!
+        video.send_to_screenwriter_revision!
+        video.send_to_customer_revision!
+        video.refused_by_customer!
+        video.send_to_customer_revision!
+        video.approved_by_customer!
       end
-    end
 
-    context 'versioning state transitions' do
-      it { expect { video.cancel_video! }.to change{ StateHistory.count }.by(1) }
+      context 'historing the transitions' do
+        it { expect { video.cancel_video! }.to change{ StateHistory.count }.by(1) }
 
-      it 'set version' do
-        expect do
-          video.send_request!
-          video.cancel_request!
-          video.send_request!
-          video.send_to_production!
-          video.cancel_production!
-          video.send_to_production!
-          video.send_to_screenwriter_revision!
-          video.send_to_customer_revision!
-          video.refused_by_customer!
-          video.send_to_customer_revision!
-          video.approved_by_customer!
-        end.to change{ video.version }.from(0).to(7)
+        it 'logs all state transitions' do
+          expect { full_transition! }.to change{ StateHistory.count }.by(11)
+        end
+      end
+
+      context 'notificating the transitions' do
+        it 'logs all state transitions' do
+          expect { full_transition! }.to change{ VideoNotification.count }.by(7)
+        end
+      end
+
+      context 'versioning state transitions' do
+        it 'set version' do
+          expect { full_transition! }.to change{ video.version }.from(0).to(7)
+        end
       end
     end
   end

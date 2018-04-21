@@ -56,7 +56,7 @@ class AccessPolicy
         target_user.organization == current_user.organization
       end
 
-      can [:create, :update, :destroy, :read, :cancel_video, :assign], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
 
@@ -82,7 +82,7 @@ class AccessPolicy
     end
 
     role :system_admin, user_role: 'system_admin' do
-      can [:create, :update, :destroy, :read, :cancel_video, :assign], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
 
@@ -108,7 +108,7 @@ class AccessPolicy
     end
 
     role :system_member, user_role: 'system_member' do
-      can [:create, :update, :destroy, :read, :cancel_video, :assign], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
         target_video.created_by == current_user
       end

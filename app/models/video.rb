@@ -7,10 +7,10 @@ class Video < ApplicationRecord
   has_many :tasks
   has_many :state_histories
   has_many :attachments, as: :source, inverse_of: :source
+  has_many :notifications, inverse_of: :video, class_name: 'VideoNotification'
   has_and_belongs_to_many :users, inverse_of: :videos
 
   acts_as_paranoid
-
 
   def state_verbose
     I18n.t("video.state.#{aasm_state}")
@@ -36,7 +36,7 @@ class Video < ApplicationRecord
       transitions from: [:draft], to: :canceled
     end
 
-    event :send_request, after: Proc.new { |*_| increase_version } do
+    event :send_request, after: [:increase_version, :send_notifications] do
       transitions from: [:draft], to: :script_creation, guard: :description_present?
     end
 
@@ -44,7 +44,7 @@ class Video < ApplicationRecord
       transitions from: [:script_creation], to: :draft
     end
 
-    event :send_to_production, :after => Proc.new { |*_| increase_version } do
+    event :send_to_production, after: [:increase_version, :send_notifications] do
       transitions from: [:script_creation], to: :production
     end
 
@@ -52,11 +52,11 @@ class Video < ApplicationRecord
       transitions from: [:production], to: :script_creation
     end
 
-    event :send_to_screenwriter_revision, :after => Proc.new { |*_| increase_version } do
+    event :send_to_screenwriter_revision, after: [:increase_version, :send_notifications] do
       transitions from: [:production], to: :screenwriter_revision
     end
 
-    event :send_to_customer_revision, :after => Proc.new { |*_| increase_version } do
+    event :send_to_customer_revision, after: [:increase_version, :send_notifications] do
       transitions from: [:screenwriter_revision], to: :customer_revision
     end
 
@@ -76,11 +76,20 @@ class Video < ApplicationRecord
   private
 
   def log_status_change
-    state_histories << StateHistory.new(
-                                      from_state: aasm.from_state,
-                                      to_state: aasm.to_state,
-                                      current_event: aasm.current_event
-                                    )
+    state_histories.new(from_state: aasm.from_state, to_state: aasm.to_state, current_event: aasm.current_event)
+  end
+
+  def send_notifications
+    new_author_notification
+    users.where.not(id: created_by.id).each { |user| new_notification(user) }
+  end
+
+  def new_author_notification
+    new_notification(created_by)
+  end
+
+  def new_notification(user)
+    notifications.new(body: "O vídeo #{title} foi movido para #{state_verbose}", user: user)
   end
 
   def increase_version

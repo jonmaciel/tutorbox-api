@@ -11,6 +11,7 @@ Types::UserType = GraphQL::ObjectType.define do
   end
   field :system, Types::SystemType
   field :organization, Types::OrganizationType
+  field :videoNotifications, types[Types::VideoNotificationType]
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
 end

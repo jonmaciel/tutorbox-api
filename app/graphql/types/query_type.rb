@@ -37,10 +37,12 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(_, input, context) do
       video = Video.find(input[:id])
       context[:current_user].authorize!(:read, video)
+
+      video.notifications.unread.where(user: context[:current_user]).update_all(read: true)
+
       video
     end
   end
-
 
   field :attachments, types[Types::AttachmentType] do
     description 'Get attachments'
@@ -63,7 +65,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :users, types[Types::UserType] do
-    description 'Get organizations'
+    description 'Get users'
     resolve ->(_, input, context) do
       context[:current_user].authorize!(:read_collection, User)
       User.all
@@ -72,7 +74,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :user, Types::UserType do
     argument :id, !types.ID, 'Video ID'
-    description 'Get organizations'
+    description 'Get user'
     resolve ->(_, input, context) do
       user = User.find(input[:id])
       context[:current_user].authorize!(:read, user)
@@ -80,9 +82,15 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
 
+  field :notifications, Types::NotificationType do
+    resolve ->(_, input, context) do
+      context[:current_user]
+    end
+  end
+
   field :selectMembers, types[Types::UserType] do
     argument :organizationId, !types.ID, 'Video ID'
-    description 'Get organizations'
+    description 'Get member to select'
     resolve ->(_, input, context) do
       current_user = context[:current_user]
       organization = Organization.find(input[:organizationId])
