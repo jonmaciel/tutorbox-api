@@ -3,5 +3,6 @@ Types::SystemType = GraphQL::ObjectType.define do
 
   field :id, types.ID
   field :name, types.String
+  field :organization, Types::OrganizationType
   field :videos, types[Types::VideoType]
 end

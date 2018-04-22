@@ -27,6 +27,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       return Video.where(system: current_user.organization.systems) if current_user.end_user?
       return Video.all if current_user.admin?
       return Video.where(aasm_state: :script_creation) if current_user.script_writer?
+      return Video.joins('INNER JOIN "users_videos" ON "videos"."id" = "users_videos"."video_id"').where(users_videos: { user_id: current_user.id }, aasm_state: :production) if current_user.video_producer?
       []
     end
   end
@@ -125,7 +126,40 @@ Types::QueryType = GraphQL::ObjectType.define do
 
       require 'aws-sdk-s3'
 
-      new_name = "video_attachments/#{input[:videoId]}/#{SecureRandom.hex}.#{input[:fileType].split('/').last}"
+      new_name = "video/#{input[:videoId]}/attachments/#{SecureRandom.hex}.#{input[:fileType].split('/').last}"
+
+      Aws.config.update({
+        region: 'us-east-2',
+        credentials: Aws::Credentials.new('AKIAIDV3FJF3WMG5GHHA', 'q2tiO8ZKhbr/FvIkZYj5Ozl+9qhPl9DqLc3rAu6Z')
+      })
+
+      s3 = Aws::S3::Resource.new.bucket('tutorbox-files')
+
+      object = s3.object(new_name)
+
+      {
+        file_name: new_name,
+        signed_url: object.presigned_url(
+                    :put,
+                    expires_in: 5.minutes.to_i,
+                    acl: 'public-read'
+                  )
+      }
+    end
+  end
+
+
+  field :s3SignedUrlVideo, Types::S3Type do
+    argument :fileType, types.String, 'User ID'
+    argument :videoId, !types.ID, 'User ID'
+    resolve ->(_, input, context) do
+      return unless input[:fileType]
+
+      require 'aws-sdk-s3'
+
+      video = Video.find(input[:videoId])
+
+      new_name = "video/#{video.id}/#{video.version}_#{SecureRandom.hex}.#{input[:fileType].split('/').last}"
 
       Aws.config.update({
         region: 'us-east-2',

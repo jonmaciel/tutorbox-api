@@ -15,7 +15,7 @@ class AccessPolicy
       can :read_tutormakers, User
       can :read_collection, Video
       can :read_collection, Attachment
-      can [:cancel_video, :send_request], Video
+      can [:cancel_video, :send_request, :send_to_production, :cancel_request], Video
       can [:read_comments, :video_attachments], Video
       can [:post, :edit, :destroy], Comment
     end
@@ -23,6 +23,7 @@ class AccessPolicy
     role :script_writer, user_role: 'script_writer' do
       can :manage, Video
       can :read_collection, Video
+      can [:cancel_video, :send_request, :send_to_production, :cancel_request], Video
       can :assign, Video
       can :read, Organization
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
@@ -46,7 +47,7 @@ class AccessPolicy
         target_comment.video.source.organization_id == current_user.organization_id
       end
 
-      can [:read_comments, :video_attachments], Video do |target_video, current_user|
+      can [:read, :update, :read_comments, :video_attachments], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id)
       end
     end
