@@ -19,6 +19,16 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
   end
 
+  field :systems, types[Types::SystemType] do
+    description 'Get organizations'
+    argument :organizationId, !types.ID, 'Organization ID'
+    resolve ->(_, input, context) do
+      return [] if input[:organizationId].blank?
+      context[:current_user].authorize!(:read_collection, System)
+      Organization.find(input[:organizationId]).systems
+    end
+  end
+
   field :videos, types[Types::VideoType] do
     description 'Get organizations'
     resolve ->(_, input, context) do

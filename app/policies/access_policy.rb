@@ -11,6 +11,7 @@ class AccessPolicy
       can :manage, System
       can :manage, Attachment
       can :read_collection, Organization
+      can :read_collection, System
       can :read_collection, User
       can :read_tutormakers, User
       can :read_collection, Video
