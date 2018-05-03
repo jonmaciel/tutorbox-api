@@ -37,7 +37,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       return Video.where(system: current_user.organization.systems) if current_user.end_user?
       return Video.all if current_user.admin?
       return Video.where(aasm_state: :script_creation) if current_user.script_writer?
-      return Video.joins('INNER JOIN "users_videos" ON "videos"."id" = "users_videos"."video_id"').where(users_videos: { user_id: current_user.id }, aasm_state: :production) if current_user.video_producer?
+      if current_user.video_producer?
+        return Video.joins('INNER JOIN "users_videos" ON "videos"."id" = "users_videos"."video_id"').where(users_videos: { user_id: current_user.id }, aasm_state: [:waiting_for_production, :production])
+      end
       []
     end
   end

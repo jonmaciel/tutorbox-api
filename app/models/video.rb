@@ -25,6 +25,7 @@ class Video < ApplicationRecord
     state :canceled
     state :draft, initial: true
     state :script_creation
+    state :waiting_for_production
     state :production
     state :screenwriter_revision
     state :customer_revision
@@ -45,18 +46,30 @@ class Video < ApplicationRecord
     end
 
     event :send_to_production, after: [:increase_version, :send_notifications] do
-      transitions from: [:script_creation], to: :production
+      transitions from: [:script_creation], to: :waiting_for_production
+    end
+
+    event :cancel_production_request do
+      transitions from: [:waiting_for_production], to: :script_creation
+    end
+
+    event :accept_production, after: [:increase_version, :send_notifications] do
+      transitions from: [:waiting_for_production], to: :production
     end
 
     event :cancel_production do
-      transitions from: [:production], to: :script_creation
+      transitions from: [:production], to: :waiting_for_production
     end
 
     event :send_to_screenwriter_revision, after: [:increase_version, :send_notifications] do
       transitions from: [:production], to: :screenwriter_revision
     end
 
-    event :send_to_customer_revision, after: [:increase_version, :send_notifications] do
+    event :refused_by_screenwriter do
+      transitions from: [:screenwriter_revision], to: :waiting_for_production
+    end
+
+    event :send_to_customer_revision, after: [:increase_version, :send_notifications, :revised_by_custumer!] do
       transitions from: [:screenwriter_revision], to: :customer_revision
     end
 
@@ -94,6 +107,10 @@ class Video < ApplicationRecord
 
   def increase_version
     self.version += 1
+  end
+
+  def revised_by_custumer!
+    self.revised_by_custumer = true
   end
 
   def description_present?

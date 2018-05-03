@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20180421190127) do
     t.string "url"
     t.string "aasm_state"
     t.json "labels"
+    t.boolean "revised_by_custumer", default: false
     t.bigint "system_id", null: false
     t.bigint "created_by_id", null: false
     t.datetime "deleted_at"

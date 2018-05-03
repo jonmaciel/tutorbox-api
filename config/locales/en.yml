@@ -38,5 +38,6 @@ en:
       script_creation: Script Creation
       production: Production
       screenwriter_revision: Screenwriter Revision
-      customer_revision: CustomerRevision
+      customer_revision: Customer Revision
+      waiting_for_production: Waiting for Production
       approved: Approved

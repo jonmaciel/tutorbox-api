@@ -2,7 +2,7 @@ organization = Organization.create!(name: 'First Organization')
 first_system = System.create!(name: 'First System', organization: organization)
 
 adm = User.create!(name: 'User Admin',email: 'example@mail.com' , password: '123123123' , password_confirmation: '123123123', user_role: :admin)
-User.create!(name: 'User script writer',email: 'user_role_admin@mail.com' , password: '123123123' , password_confirmation: '123123123', user_role: :script_writer)
+User.create!(name: 'User script writer',email: 'user_script_writer@mail.com' , password: '123123123' , password_confirmation: '123123123', user_role: :script_writer)
 user = User.create!(name: 'User system admin',email: 'user_role_admin2@mail.com' , password: '123123123' , password_confirmation: '123123123', user_role: :system_admin, system_role_params: [{ first_system.id => 'admin'}], organization: organization)
 
 video = Video.create(title: 'Default Video 1', system: first_system, created_by: user, url: 'https://s3.us-east-2.amazonaws.com/tutorbox-files/video/1/7_7c9f5c7863b70f2b27e1522cc681e195.quicktime')

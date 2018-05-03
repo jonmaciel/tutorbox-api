@@ -7,6 +7,7 @@ describe Types::VideoType do
   it { is_expected.to have_field(:script).of_type('String') }
   it { is_expected.to have_field(:url).of_type('String') }
   it { is_expected.to have_field(:version).of_type('String') }
+  it { is_expected.to have_field(:revised_by_custumer).of_type('Boolean') }
   it { is_expected.to have_field(:aasm_state).of_type('String') }
   it { is_expected.to have_field(:labels).of_type([String]) }
   it { is_expected.to have_field(:created_by).of_type(Types::UserType) }

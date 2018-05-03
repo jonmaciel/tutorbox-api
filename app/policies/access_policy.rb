@@ -27,11 +27,7 @@ class AccessPolicy
       can [:cancel_video, :send_request, :send_to_production, :cancel_request], Video
       can :assign, Video
       can :read, Organization
-      can [:post, :edit, :destroy], Comment do |target_comment, current_user|
-        current_user.video_ids.include?(target_comment.video_id) &&
-        target_comment.id == current_user.organization_id
-      end
-
+      can [:post, :edit, :destroy], Comment
       can [:read_comments, :video_attachments], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id)
       end
@@ -39,8 +35,7 @@ class AccessPolicy
 
     role :video_producer, user_role: 'video_producer' do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
-        current_user.video_ids.include?(target_comment.video_id) &&
-        target_comment.video.system.organization_id == current_user.organization_id
+        current_user.video_ids.include?(target_comment.video_id)
       end
 
       can [:create, :destroy], Attachment do |target_attatchment, current_user|
@@ -48,7 +43,16 @@ class AccessPolicy
         target_comment.video.source.organization_id == current_user.organization_id
       end
 
-      can [:read, :update, :read_comments, :video_attachments], Video do |target_video, current_user|
+      can [
+        :read,
+        :update,
+        :read_comments,
+        :video_attachments,
+        :accept_production,
+        :cancel_production_request,
+        :cancel_production,
+        :send_to_screenwriter_revision
+      ], Video do |target_video, current_user|
         current_user.video_ids.include?(target_video.id)
       end
     end
