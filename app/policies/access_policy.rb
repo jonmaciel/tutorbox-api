@@ -16,15 +16,16 @@ class AccessPolicy
       can :read_tutormakers, User
       can :read_collection, Video
       can :read_collection, Attachment
-      can [:cancel_video, :send_request, :send_to_production, :cancel_request], Video
+      can [:cancel_video, :send_request, :send_to_production, :cancel_request, :refused_by_screenwriter, :send_to_customer_revision], Video
       can [:read_comments, :video_attachments], Video
       can [:post, :edit, :destroy], Comment
     end
 
     role :script_writer, user_role: 'script_writer' do
       can :manage, Video
+      can :manage, Task
       can :read_collection, Video
-      can [:cancel_video, :send_request, :send_to_production, :cancel_request], Video
+      can [:cancel_video, :send_request, :send_to_production, :cancel_request, :refused_by_screenwriter, :send_to_customer_revision], Video
       can :assign, Video
       can :read, Organization
       can [:post, :edit, :destroy], Comment
@@ -36,6 +37,10 @@ class AccessPolicy
     role :video_producer, user_role: 'video_producer' do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id)
+      end
+
+      can [:update], Task do |task_target, current_user|
+        current_user.video_ids.include?(task_target.video.id)
       end
 
       can [:create, :destroy], Attachment do |target_attatchment, current_user|
@@ -78,17 +83,17 @@ class AccessPolicy
         target_comment.video.system.organization_id == current_user.organization_id
       end
 
-      can [:create, :update, :destroy], Task do |task_target, current_user|
-        task_target.video.system.organization_id == current_user.organization_id
-      end
-
       can [:read_comments, :video_attachments], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
+      end
+
+      can :manage, Task do |task_target, current_user|
+        task_target.video.system.organization_id == current_user.organization_id
       end
     end
 
     role :system_admin, user_role: 'system_admin' do
-      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer, :approved_by_customer], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
 
@@ -100,8 +105,8 @@ class AccessPolicy
         target_comment.video.system_id == current_user.system_id
       end
 
-      can [:manage], Task do |task_target, current_user|
-        task_target.video.system_id == current_user.system_id
+      can :manage, Task do |task_target, current_user|
+        task_target.video.system.organization_id == current_user.organization_id
       end
 
       can [:read_comments, :video_attachments], Video do |target_video, current_user|
@@ -114,7 +119,7 @@ class AccessPolicy
     end
 
     role :system_member, user_role: 'system_member' do
-      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer, :approved_by_customer], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
         target_video.created_by == current_user
       end
@@ -128,9 +133,8 @@ class AccessPolicy
         target_comment.author_id == current_user.id
       end
 
-      can [:manage], Task do |task_target, current_user|
-        task_target.video.system_id == current_user.system_id &&
-        task_target.author_id == current_user.id
+      can :manage, Task do |task_target, current_user|
+        task_target.video.system.organization_id == current_user.organization_id
       end
 
       can [:read_comments, :video_attachments], Video do |target_video, current_user|

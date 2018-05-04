@@ -36,7 +36,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       # current_user.authorize!(:read_collection, Video)
       return Video.where(system: current_user.organization.systems) if current_user.end_user?
       return Video.all if current_user.admin?
-      return Video.where(aasm_state: :script_creation) if current_user.script_writer?
+      return Video.where(aasm_state: [:script_creation, :screenwriter_revision, :customer_revision, :production, :waiting_for_production ]) if current_user.script_writer?
       if current_user.video_producer?
         return Video.joins('INNER JOIN "users_videos" ON "videos"."id" = "users_videos"."video_id"').where(users_videos: { user_id: current_user.id }, aasm_state: [:waiting_for_production, :production])
       end
@@ -92,6 +92,17 @@ Types::QueryType = GraphQL::ObjectType.define do
       user = User.find(input[:id])
       context[:current_user].authorize!(:read, user)
       user
+    end
+  end
+
+  field :tasks, types[Types::TaskType] do
+    argument :videoId, !types.ID, 'Video ID'
+    description 'Get video tasks'
+    resolve ->(_, input, context) do
+      video = Video.find(input[:videoId])
+      context[:current_user].authorize!(:read, video)
+
+      video.tasks
     end
   end
 
