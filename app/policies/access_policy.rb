@@ -21,7 +21,7 @@ class AccessPolicy
       can [:post, :edit, :destroy], Comment
     end
 
-    role :script_writer, user_role: 'script_writer' do
+    role :script_writer,  lambda { |u| u.user_role.in?(['script_writer', 'fullproducer']) } do
       can :manage, Video
       can :manage, Task
       can :read_collection, Video
@@ -34,7 +34,7 @@ class AccessPolicy
       end
     end
 
-    role :video_producer, user_role: 'video_producer' do
+    role :video_producer, lambda { |u| u.user_role.in?(['video_producer', 'fullproducer']) } do
       can [:post, :edit, :destroy], Comment do |target_comment, current_user|
         current_user.video_ids.include?(target_comment.video_id)
       end
@@ -44,8 +44,7 @@ class AccessPolicy
       end
 
       can [:create, :destroy], Attachment do |target_attatchment, current_user|
-        current_user.video_ids.include?(target_attatchment.video_id) &&
-        target_comment.video.source.organization_id == current_user.organization_id
+        current_user.video_ids.include?(target_attatchment.video_id)
       end
 
       can [
@@ -67,7 +66,7 @@ class AccessPolicy
         target_user.organization == current_user.organization
       end
 
-      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
 

@@ -2,33 +2,44 @@ require 'rails_helper'
 
 describe AccessPolicy do
   subject(:ability) { described_class.new(current_user) }
-  let!(:fullrole) { [:create, :update, :destroy, :read] }
+  fullrole  = [:create, :update, :destroy, :read]
 
   describe '#admin abilities' do
     let(:current_user) { users(:user_admin) }
 
-    describe '#video' do
+    describe '#video epecial permissions' do
       it { expect(ability.can?(:cancel_video, Video)).to be_truthy }
       it { expect(ability.can?(:assign, Video)).to be_truthy }
-      it ':manage' do
-        fullrole.each do |role|
-          expect(ability.can?(role, Video)).to be_truthy
-        end
-      end
-    end
-
-    describe '#user' do
-      it ':manage' do
-        fullrole.each do |role|
-          expect(ability.can?(role, User)).to be_truthy
-        end
-      end
-    end
-
-    describe '#organization' do
       it { expect(ability.can?(:read_collection, Organization)).to be_truthy }
-      it ':manage' do
-        fullrole.each { |role| expect(ability.can?(role, User)).to be_truthy }
+    end
+
+    [User, Organization, Video].each do |const|
+      describe "##{const}" do
+        fullrole.each do |role|
+          it role do
+            expect(ability.can?(role, const)).to be_truthy
+          end
+        end
+      end
+    end
+  end
+
+  ['script_writer', 'fullproducer'].each do |role|
+    describe role do
+      let(:current_user) do
+        user = users(:user_admin)
+        user.user_role = role
+        user
+      end
+
+      [Task, Video].each do |const|
+        describe "##{const}" do
+          fullrole.each do |role|
+            it role do
+              expect(ability.can?(role, const)).to be_truthy
+            end
+          end
+        end
       end
     end
   end
@@ -41,16 +52,18 @@ describe AccessPolicy do
     context 'when the target user is from same org' do
       let(:same_org_user) { users(:user_system_member) }
 
-      it ':manage' do
-        fullrole.each { |role| expect(ability.can?(role, same_org_user)).to be_truthy }
+      fullrole.each do |role|
+        it role do
+          expect(ability.can?(role, same_org_user)).to be_truthy
+        end
       end
     end
 
     context 'when the target user is from same org' do
       let(:other_org_user) { users(:software_house_member) }
 
-      it 'cannot manage' do
-        fullrole.each do |role|
+      fullrole.each do |role|
+        it role do
           expect(ability.can?(role, other_org_user)).to be_falsey
         end
       end

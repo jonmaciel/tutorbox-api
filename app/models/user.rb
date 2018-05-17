@@ -8,7 +8,7 @@ class User < ApplicationRecord
   acts_as_paranoid
   has_secure_password
 
-  enum user_role: [:admin, :script_writer, :video_producer, :organization_admin, :system_admin, :system_member]
+  enum user_role: [:admin, :fullproducer, :script_writer, :video_producer, :organization_admin, :system_admin, :system_member]
 
   validates :name, :email, :user_role, :password_digest,  presence: true
 
