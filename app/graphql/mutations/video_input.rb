@@ -9,5 +9,6 @@ module VideoInput
     argument :url, types.String, 'The video URL'
     argument :labels, types[types.String], 'Labels'
     argument :system_id, types.ID, 'The video ID'
+    argument :upload_type, MutationEnums::VideoUploadTypes, 'The video Upload Type'
   end
 end

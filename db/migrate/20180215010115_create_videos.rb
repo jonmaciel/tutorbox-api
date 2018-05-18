@@ -6,6 +6,7 @@ class CreateVideos < ActiveRecord::Migration[5.1]
       t.text :script
       t.integer :version, default: 0
       t.string :url
+      t.integer :upload_type
       t.string :aasm_state
       t.json :labels
       t.boolean :revised_by_custumer, default: false

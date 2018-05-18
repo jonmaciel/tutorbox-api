@@ -1,6 +1,8 @@
 class Video < ApplicationRecord
   include AASM
 
+  acts_as_paranoid
+
   belongs_to :system
   belongs_to :created_by, class_name: 'User', foreign_key: :created_by_id
   has_many :comments
@@ -10,7 +12,7 @@ class Video < ApplicationRecord
   has_many :notifications, inverse_of: :video, class_name: 'VideoNotification'
   has_and_belongs_to_many :users, inverse_of: :videos
 
-  acts_as_paranoid
+  enum upload_type: [:aws, :url]
 
   def state_verbose
     I18n.t("video.state.#{aasm_state}")
@@ -84,6 +86,10 @@ class Video < ApplicationRecord
 
   def permited_events
     aasm.events(permitted: true).map(&:name)
+  end
+
+  def url
+    aws? && super.present? ? "https://s3.us-east-2.amazonaws.com/tutorbox-files/#{super}" : super
   end
 
   private

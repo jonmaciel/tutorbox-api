@@ -6,4 +6,5 @@ describe VideoInput::Attributes do
   it { is_expected.to have_an_input_field(:url).of_type('String') }
   it { is_expected.to have_an_input_field(:labels).of_type([String]) }
   it { is_expected.to have_an_input_field(:system_id).of_type('ID') }
+  it { is_expected.to have_an_input_field(:upload_type).of_type(MutationEnums::VideoUploadTypes) }
 end

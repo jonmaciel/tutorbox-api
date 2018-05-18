@@ -16,4 +16,13 @@ module MutationEnums
       value destination.camelize(:lower), destination.titleize, value: destination
     end
   end
+
+  VideoUploadTypes = GraphQL::EnumType.define do
+    name 'VideoUploadTypes'
+    description 'Video Upload Type'
+
+    Video.upload_types.each_key do |upload_type|
+      value upload_type.camelize(:lower), upload_type.titleize, value: upload_type
+    end
+  end
 end
