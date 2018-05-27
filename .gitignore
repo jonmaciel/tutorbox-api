@@ -57,3 +57,7 @@ screenshot.html
 yarn-error.log
 
 /log/development.log
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
