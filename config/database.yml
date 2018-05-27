@@ -18,7 +18,11 @@ test:
   password: password
 
 production:
-  <<: *default
-  database: tutorbox-api_production
-  username: tutorbox-api
-  password: <%= ENV['TUTORBOX-API_DATABASE_PASSWORD'] %>
+    <<: *default
+    adapter: postgresql
+    encoding: unicode
+    database: <%= ENV['RDS_DB_NAME'] %>
+    username: <%= ENV['RDS_USERNAME'] %>
+    password: <%= ENV['RDS_PASSWORD'] %>
+    host: <%= ENV['RDS_HOSTNAME'] %>
+    port: <%= ENV['RDS_PORT'] %>
