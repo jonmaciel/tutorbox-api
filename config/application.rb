@@ -23,6 +23,7 @@ module TutorboxApi
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('app/graphql/mutations')
     Dir[File.join(Rails.root, 'app', 'exceptions', '*.rb')].each { |l| require l }
+    Dir[File.join(Rails.root, 'lib', '*.rb')].each { |l| require l }
     config.api_only = true
   end
 end
