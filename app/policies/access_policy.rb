@@ -72,7 +72,7 @@ class AccessPolicy
         target_system.organization_id == current_user.organization_id
       end
 
-      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer], Video do |target_video, current_user|
+      can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer, :approved_by_customer], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
 
