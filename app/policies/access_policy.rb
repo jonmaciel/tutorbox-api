@@ -62,8 +62,14 @@ class AccessPolicy
     end
 
     role :organization_admin, user_role: 'organization_admin' do
+      can :read_collection, System
+
       can :manage, User do |target_user, current_user|
         target_user.organization == current_user.organization
+      end
+
+      can :manage, System do |target_system, current_user|
+        target_system.organization_id == current_user.organization_id
       end
 
       can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer], Video do |target_video, current_user|
@@ -92,6 +98,8 @@ class AccessPolicy
     end
 
     role :system_admin, user_role: 'system_admin' do
+      can :read_collection, System
+
       can [:create, :update, :destroy, :read, :cancel_video, :assign, :send_request, :refused_by_customer, :approved_by_customer], Video do |target_video, current_user|
         target_video.system.organization_id == current_user.organization_id
       end
